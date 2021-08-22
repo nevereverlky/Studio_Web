@@ -1,6 +1,6 @@
 <template>
   <div class="Signin">
-    <div class="hold-transition theme-primary bg-lighter" style="height:100vh;width:100vw">
+    <div class="hold-transition theme-success bg-lighter" style="height:100vh;width:100vw">
       <div class="container h-p100">
         <div class="row align-items-center justify-content-md-center h-p100">
 
@@ -9,14 +9,14 @@
               <div class="col-lg-4 col-md-5 col-12">
                 <div class="p-30 rounded30 box-shadowed b-2 b-dashed bg-white">
                   <div class="content-top-agile p-10">
-                    <h2 class="text-success">第二课堂</h2>
-                    <p class="text-success-50">The Secondary Studies Management</p>
+                    <h2 class="text-primary">第二课堂</h2>
+                    <p class="text-primary-50">The Secondary Studies Management</p>
                   </div>
                   <form>
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <span class="input-group-text bg-transparent text-success"><i class="fa fa-user-o"/></span>
+                          <span class="input-group-text bg-transparent text-primary"><i class="fa fa-user-o"/></span>
                         </div>
                         <input v-model="loginForm.account" type="text" class="form-control pl-15 bg-transparent text-dark plc-white" placeholder="帐号">
                       </div>
@@ -24,7 +24,7 @@
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <span class="input-group-text  bg-transparent text-success"><i class="fa fa-unlock"/></span>
+                          <span class="input-group-text  bg-transparent text-primary"><i class="fa fa-unlock"/></span>
                         </div>
                         <input v-model="loginForm.password" type="password" class="form-control pl-15 bg-transparent text-dark plc-white" placeholder="密码">
                       </div>
@@ -32,7 +32,7 @@
                     <div class="row">
                       <!-- /.col -->
                       <div class="col-12 text-center">
-                        <button type="button" class="btn btn-success btn-rounded mt-20" @click.prevent="login">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                        <button type="button" class="btn btn-primary btn-rounded mt-20" @click.prevent="login">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
                       </div>
                       <!-- /.col -->
                     </div>

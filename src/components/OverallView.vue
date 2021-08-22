@@ -1,6 +1,6 @@
 <template>
   <div id="OverallView">
-    <div class="hold-transition light-skin sidebar-mini theme-primary">
+    <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
         <div class="content-wrapper">
@@ -26,7 +26,7 @@
             <section class="content">
               <div class="row">
                 <div class="col-xl-3 col-md-6 col-12">
-                  <div class="box box-primary pull-up">
+                  <div class="box box-success pull-up">
                     <div class="box-body">
                       <div class="d-flex align-items-center font-size-18">
                         <div class="icon">
@@ -49,7 +49,7 @@
                   </div>
                 </div>
                 <div class="col-xl-3 col-md-6 col-12">
-                  <div class="box box-success pull-up">
+                  <div class="box box-primary pull-up">
                     <div class="box-body">
                       <div class="d-flex align-items-center font-size-18">
                         <div class="icon">
@@ -72,7 +72,7 @@
                   </div>
                 </div>
                 <div class="col-xl-3 col-md-6 col-12">
-                  <div class="box box-primary pull-up">
+                  <div class="box box-success pull-up">
                     <div class="box-body">
                       <div class="d-flex align-items-center font-size-18">
                         <div class="icon">
@@ -95,7 +95,7 @@
                   </div>
                 </div>
                 <div class="col-xl-3 col-md-6 col-12">
-                  <div class="box box-success pull-up">
+                  <div class="box box-primary pull-up">
                     <div class="box-body">
                       <div class="d-flex align-items-center font-size-18">
                         <div class="icon">
@@ -122,7 +122,7 @@
               <div>
                 <div>
                   <div class="btn-group float-sm-right" style="margin-bottom: 20px">
-                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light"><i class="fa fa-download mr-1"/>导出名单</button>
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"><i class="fa fa-download mr-1"/>导出名单</button>
                   </div>
                 </div>
                 <!--finalShow.slice((currentPage-1)*pageSize,currentPage*pageSize)-->
@@ -137,7 +137,7 @@
                       prop="name"
                       width="180">
                       <template slot-scope="scope">
-                        {{ scope.row.name }}<span class="badge badge-primary" style="margin-left: 10px">{{ scope.row.account }}</span>
+                        {{ scope.row.name }}<span class="badge badge-success" style="margin-left: 10px">{{ scope.row.account }}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -185,7 +185,7 @@
                       </template>
                       <!-- eslint-disable-next-line -->
                       <template slot-scope="scope">
-                        <button type="button" class="btn btn-outline btn-rounded btn-primary btn-sm mb-0">推送消息</button>
+                        <button type="button" class="btn btn-outline btn-rounded btn-success btn-sm mb-0">推送消息</button>
                       </template>
                     </el-table-column>
                   </el-table-column>

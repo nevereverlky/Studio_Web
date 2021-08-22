@@ -10,8 +10,6 @@ import store from './store'
 // import qs from 'QS'
 
 import './assets/css/style.css'
-import './assets/css/skin_color.css'
-import './assets/css/color_theme.css'
 
 // Vue.use(ElementUI)
 // Vue.use(VueAxios)
