@@ -1,6 +1,6 @@
 <template>
   <div id="informationEntry">
-    <div class="hold-transition light-skin sidebar-mini theme-success">
+    <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
         <div class="content-wrapper">

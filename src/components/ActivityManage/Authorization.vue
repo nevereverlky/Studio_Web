@@ -1,6 +1,6 @@
 <template>
   <div id="Authorization">
-    <div class="hold-transition light-skin sidebar-mini theme-primary">
+    <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
         <div class="content-wrapper">
@@ -62,7 +62,7 @@
                           type="datetimerange"
                           start-placeholder="搜索扫章开始时间"
                           end-placeholder="扫章结束时间内"/>
-                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="reset">重置</button>
+                        <button type="button" class="btn btn-sm btn-primary waves-effect waves-light m-1" @click="reset">重置</button>
                       </div>
                     </template>
                     <el-table-column
@@ -112,7 +112,7 @@
                       <template slot-scope="scope">
                         <el-switch
                           v-model="authority"
-                          active-color="#1bc5bd"
+                          active-color="#6993ff"
                           inactive-color="#eeeeee"/>
                       </template>
                     </el-table-column>
@@ -122,7 +122,7 @@
                       width="100">
                       <!-- eslint-disable-next-line -->
                       <template slot-scope="scope">
-                        <button type="button" class="btn btn-sm btn-primary waves-effect waves-light m-1" @click="edittimeVisible = true">修改</button>
+                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="edittimeVisible = true">修改</button>
                       </template>
                     </el-table-column>
                   </el-table-column>

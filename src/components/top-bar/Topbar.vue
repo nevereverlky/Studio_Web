@@ -1,5 +1,5 @@
 <template>
-  <div id="Topbar" class="theme-success">
+  <div id="Topbar">
 
     <header class="main-header">
       <!-- Header Navbar -->
@@ -7,16 +7,16 @@
         <!-- Sidebar toggle button-->
         <div>
           <ul class="nav">
-            <!-- <li class="btn-group nav-item">
+            <li class="btn-group nav-item">
               <a href="#" class="waves-effect waves-light nav-link rounded svg-bt-icon" data-toggle="push-menu" role="button">
                 <i class="fa fa-navicon" aria-hidden="true"/>
               </a>
-            </li> -->
-            <!-- <li class="btn-group nav-item">
+            </li>
+            <li class="btn-group nav-item">
               <a href="#" data-provide="fullscreen" class="waves-effect waves-light nav-link rounded svg-bt-icon" title="Full Screen">
                 <i class="fa fa-expand" aria-hidden="true"/>
               </a>
-            </li> -->
+            </li>
           </ul>
         </div>
 
@@ -121,6 +121,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="less">
+@import '../../assets/styles/Topbar.less';
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="Sidebar" class="theme-success light-skin">
+  <div id="Sidebar">
 
     <aside class="main-sidebar">
       <!-- sidebar-->

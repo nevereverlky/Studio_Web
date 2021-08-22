@@ -1,6 +1,6 @@
 <template>
   <div id="activityChapter">
-    <div class="hold-transition light-skin sidebar-mini theme-primary">
+    <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
         <div class="content-wrapper">
@@ -27,7 +27,7 @@
             <section class="content">
               <div class="col-12" style="display: flex">
                 <div class="col-md-4">
-                  <div class="box box-solid bg-primary">
+                  <div class="box box-solid bg-success">
                     <div class="box-header">
                       <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
 
@@ -35,59 +35,59 @@
                     <div class="box-body">
                       <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学生社团联合会</p>
                       <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-success">512</span></p>
+                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">512</span></p>
                       <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
                       <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
                       <center><el-tooltip class="item" effect="dark" content="仅可导章一次" placement="bottom">
-                        <button class="btn btn-success btn-flat btn-sm center" @click="dialogchapers = true">Excel批量导章</button>
+                        <button class="btn btn-primary btn-flat btn-sm center" @click="dialogchapers = true">Excel批量导章</button>
                       </el-tooltip></center>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="box box-solid bg-primary">
+                  <div class="box box-solid bg-success">
                     <div class="box-header">
                       <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
                     </div>
                     <div class="box-body">
                       <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;社团联</p>
                       <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-success">512</span></p>
+                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">512</span></p>
                       <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
                       <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
-                      <center><button class="btn btn-success btn-flat btn-sm center" style="cursor: not-allowed" disabled>Excel批量导章</button></center>
+                      <center><button class="btn btn-primary btn-flat btn-sm center" style="cursor: not-allowed" disabled>Excel批量导章</button></center>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="box box-solid bg-primary">
+                  <div class="box box-solid bg-success">
                     <div class="box-header">
                       <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
                     </div>
                     <div class="box-body">
                       <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;社团联</p>
                       <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-success">512</span></p>
+                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">512</span></p>
                       <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
                       <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
-                      <center><button class="btn btn-success btn-flat btn-sm center">Excel批量导章</button></center>
+                      <center><button class="btn btn-primary btn-flat btn-sm center">Excel批量导章</button></center>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-12" style="display: flex">
                 <div class="col-md-4">
-                  <div class="box box-solid bg-primary">
+                  <div class="box box-solid bg-success">
                     <div class="box-header">
                       <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
                     </div>
                     <div class="box-body">
                       <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;社团联</p>
                       <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-success">512</span></p>
+                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">512</span></p>
                       <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
                       <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
-                      <center><button class="btn btn-success btn-flat btn-sm center">Excel批量导章</button></center>
+                      <center><button class="btn btn-primary btn-flat btn-sm center">Excel批量导章</button></center>
                     </div>
                   </div>
                 </div>
