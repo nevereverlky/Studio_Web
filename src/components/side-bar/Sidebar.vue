@@ -1,3 +1,4 @@
+<!--侧边栏组件-->
 <template>
   <div id="Sidebar">
 
@@ -30,7 +31,7 @@
               active-text-color="#1bc5bd"
               @open="handleOpen"
               @close="handleClose">
-              <el-menu-item index="/overallview">
+              <el-menu-item index="/overview">
                 <i class="fa-icon fa fa-desktop"/>
                 <span>预警与总览</span>
               </el-menu-item>
@@ -39,24 +40,24 @@
                   <i class="fa-icon fa fa-camera-retro" />
                   <span>活动模块</span>
                 </template>
-                <el-menu-item index="/activityinquiry"><i class="fa fa-ellipsis-h"/>活动查询与创建</el-menu-item>
-                <el-menu-item index="/activityapproval"><i class="fa fa-ellipsis-h"/>活动审批</el-menu-item>
-                <el-menu-item index="/authorization"><i class="fa fa-ellipsis-h"/>权限分配</el-menu-item>
+                <el-menu-item index="/inquiry"><i class="fa fa-ellipsis-h"/>活动查询与创建</el-menu-item>
+                <el-menu-item index="/approval"><i class="fa fa-ellipsis-h"/>活动审批</el-menu-item>
+                <el-menu-item index="/authority"><i class="fa fa-ellipsis-h"/>权限分配</el-menu-item>
               </el-submenu>
               <el-submenu index="2">
                 <template slot="title">
                   <i class="fa-icon fa fa-cloud-upload" />
                   <span>活动章模块</span>
                 </template>
-                <el-menu-item index="/activitychapter"><i class="fa fa-ellipsis-h"/>导入章</el-menu-item>
-                <el-menu-item index="/chapterinout"><i class="fa fa-ellipsis-h"/>导入/导出章</el-menu-item>
+                <el-menu-item index="/import"><i class="fa fa-ellipsis-h"/>导入章</el-menu-item>
+                <el-menu-item index="/manage"><i class="fa fa-ellipsis-h"/>导入/导出章</el-menu-item>
               </el-submenu>
               <el-submenu index="3">
                 <template slot="title">
                   <i class="fa-icon fa fa-vcard-o"/>
-                  <span>帐号模块</span>
+                  <span>教务模块</span>
                 </template>
-                <el-menu-item index="/informationentry"><i class="fa fa-ellipsis-h"/>新生信息录入</el-menu-item>
+                <el-menu-item index="/infoentry"><i class="fa fa-ellipsis-h"/>新生信息录入</el-menu-item>
               </el-submenu>
             </el-menu>
           </el-col>
@@ -99,5 +100,5 @@ export default {
 </script>
 
 <style lang="less">
-@import '../../assets/styles/Sidebar.less';
+@import '../../styles/Sidebar.less';
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="activityInquiry">
+  <div id="inquiry">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -303,7 +303,7 @@
 
 <script>
 export default {
-  name: 'ActivityInquiry',
+  name: 'Inquiry',
   data() {
     return {
       formLabelWidth: '80px',
@@ -338,6 +338,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style lang="less"></style>

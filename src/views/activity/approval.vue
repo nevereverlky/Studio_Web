@@ -1,5 +1,5 @@
 <template>
-  <div id="activityApproval">
+  <div id="approval">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -291,9 +291,9 @@
 </template>
 
 <script>
-import request from '../../api/request'
+import request from '../../utils/request'
 export default {
-  name: 'ActivityApproval',
+  name: 'Approval',
   data() {
     return {
       search_account: '',
@@ -401,8 +401,8 @@ export default {
     },
     toApprove(id) {
       this.$router.push({
-        path: '/approvecard',
-        name: 'approveCard',
+        path: '/approvedetail',
+        name: 'approveDetail',
         query: {
           activeId: id
         }
@@ -412,6 +412,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style lang="less"></style>

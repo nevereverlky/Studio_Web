@@ -1,5 +1,5 @@
 <template>
-  <div id="approveCard">
+  <div id="approveDetail">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -90,7 +90,7 @@
 
 <script>
 export default {
-  name: 'ApproveCard',
+  name: 'ApproveDetail',
   data() {
     return {
       pass: '',
@@ -100,14 +100,12 @@ export default {
   methods: {
     turnBack() {
       this.$router.push({
-        path: '/activityapproval',
-        name: 'activityApproval'
+        path: '/approval',
+        name: 'approval'
       })
     }
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style lang="less"></style>

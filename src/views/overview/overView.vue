@@ -1,5 +1,5 @@
 <template>
-  <div id="OverallView">
+  <div id="overView">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -454,7 +454,7 @@
 <script>
 // import request from '/../../utils/request'
 export default {
-  name: 'OverallView',
+  name: 'OverView',
   data() {
     return {
       search_activename: '', // input的值
@@ -528,6 +528,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style lang="less"></style>

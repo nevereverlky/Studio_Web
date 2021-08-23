@@ -1,5 +1,6 @@
+<!--登录模块-->
 <template>
-  <div class="Signin">
+  <div class="login">
     <div class="hold-transition theme-success bg-lighter" style="height:100vh;width:100vw">
       <div class="container h-p100">
         <div class="row align-items-center justify-content-md-center h-p100">
@@ -50,7 +51,7 @@
 <script>
 // import request from '../api/request'
 export default {
-  name: 'Signin',
+  name: 'Login',
   data() {
     return {
       loginForm: {
@@ -88,6 +89,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style lang="less"></style>

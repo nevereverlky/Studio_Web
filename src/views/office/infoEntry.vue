@@ -1,5 +1,5 @@
 <template>
-  <div id="informationEntry">
+  <div id="infoEntry">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -14,7 +14,7 @@
                     <nav>
                       <ol class="breadcrumb">
                         <li class="breadcrumb-item"><router-link tag="a" to="/activityapproval"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
-                        <li class="breadcrumb-item" aria-current="page">账号模块</li>
+                        <li class="breadcrumb-item" aria-current="page">教务模块</li>
                         <li class="breadcrumb-item active" aria-current="page">新生信息录入</li>
                       </ol>
                     </nav>
@@ -69,7 +69,7 @@
 
 <script>
 export default {
-  name: 'User',
+  name: 'InfoEntry',
   data() {
     return {
         checked: false,
@@ -80,5 +80,4 @@ export default {
 }
 </script>
 
-<style lang="less">
-</style>
+<style lang="less"></style>
