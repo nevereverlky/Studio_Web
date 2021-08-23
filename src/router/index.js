@@ -3,86 +3,68 @@ import VueRouter from 'vue-router'
 // import request from '../utils/request'
 // import _this from './../main.js'
 
-import Index from '@/views/Index.vue'
-// import activityInquiry from '@/components/ActivityManage/activityInquiry'
-// import activityApproval from '@/components/ActivityManage/activityApproval'
-// import approveCard from '@/components/ActivityManage/approveCard'
-// import activityChapter from '@/components/ActivityManage/activityChapter'
-// import chapterInout from '@/components/ActivityManage/chapterInout'
-// import Authorization from '@/components/ActivityManage/Authorization'
-// import InformationEntry from '@/components/InformationEntry'
-import OverallView from '@/components/OverallView'
-// import userInfo from '@/components/userInfo'
-// import EditPassword from '@/components/EditPassword'
-
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/login',
+    component: () => import('../views/login/login')
+  },
+  {
     path: '/',
-    redirect: '/signin'
-  },
-  {
-    path: '/signin',
-    component: () => import('../views/Signin.vue')
-  },
-  {
-    path: '/index',
-    name: 'Index',
-    // component: () => import('../views/Index.vue'),
-    component: Index,
-    redirect: '/overallview',
+    name: 'index',
+    component: () => import('../views/layout'),
+    redirect: '/overview',
     children: [
       {
-        path: '/activityinquiry',
-        name: 'activityInquiry',
-        component: () => import('../components/ActivityManage/activityInquiry.vue')
+        path: '/overview',
+        name: 'overView',
+        component: () => import('../views/overview/overView')
       },
       {
-        path: '/activityapproval',
-        name: 'activityApproval',
-        component: () => import('../components/ActivityManage/activityApproval.vue')
+        path: '/inquiry',
+        name: 'inquiry',
+        component: () => import('../views/activity/inquiry')
       },
       {
-        path: '/approvecard',
-        name: 'approveCard',
-        component: () => import('../components/ActivityManage/approveCard.vue')
+        path: '/approval',
+        name: 'approval',
+        component: () => import('../views/activity/approval')
       },
       {
-        path: '/activitychapter',
-        name: 'activityChapter',
-        component: () => import('../components/ActivityManage/activityChapter.vue')
+        path: '/approvedetail',
+        name: 'approveDetail',
+        component: () => import('../views/activity/approveDetail')
       },
       {
-        path: '/chapterinout',
-        name: 'chapterInout',
-        component: () => import('../components/ActivityManage/chapterInout.vue')
+        path: '/authority',
+        name: 'authority',
+        component: () => import('../views/activity/authority')
       },
       {
-        path: '/authorization',
-        name: 'Authorization',
-        component: () => import('../components/ActivityManage/Authorization')
+        path: '/import',
+        name: 'importChapter',
+        component: () => import('../views/chapter/import')
       },
       {
-        path: '/informationentry',
-        name: 'InformationEntry',
-        component: () => import('../components/InformationEntry')
+        path: '/manage',
+        name: 'manageChapter',
+        component: () => import('../views/chapter/manage')
       },
       {
-        path: '/overallview',
-        name: 'OverallView',
-        // component: () => import('../components/OverallView')
-        component: OverallView
+        path: '/infoentry',
+        name: 'infoEntry',
+        component: () => import('../views/office/infoEntry')
       },
       {
-        path: '/userInfo',
+        path: '/userinfo',
         name: 'userInfo',
-        component: () => import('../components/UserInfo')
+        component: () => import('../views/account/userInfo')
       },
       {
-        path: '/EditPassword',
-        name: 'EditPassword',
-        component: () => import('../components/EditPassword')
+        path: '/editpwd',
+        name: 'editPwd',
+        component: () => import('../views/account/editPwd')
       }
     ]
   }
@@ -91,5 +73,34 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+// // 全局路由守卫
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/login') {
+//     // next();
+//     // request.localStorageSet('token',null)
+//     let token = request.localStorageGet('token');
+//     console.log(token)
+//     if (!token) {
+//       next();
+//     } else {
+//       next('index');
+//       request.message(_this, '您已登陆', 'warning')
+//     }
+//   } else {
+//     let token = request.localStorageGet('token');
+//     console.log(token)
+//     if (!token) {
+//       // next('/login');
+//       next({
+//         path: '/login',
+//         query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+//       })
+//       request.message(_this, '请先登陆' ,'warning')
+//     } else {
+//       next()
+//     }
+//   }
+// })
 
 export default router

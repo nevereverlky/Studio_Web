@@ -1,5 +1,5 @@
 <template>
-  <div id="editPassword">
+  <div id="editPwd">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -14,7 +14,7 @@
                     <nav>
                       <ol class="breadcrumb">
                         <li class="breadcrumb-item"><router-link tag="a" to="/activityapproval"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
-                        <li class="breadcrumb-item" aria-current="page">用户信息模块</li>
+                        <li class="breadcrumb-item" aria-current="page">账户模块</li>
                         <li class="breadcrumb-item active" aria-current="page">修改密码</li>
                       </ol>
                     </nav>
@@ -62,7 +62,7 @@
 // import { updateUserPwd } from '@/api/system/user'
 
 export default {
-  name: 'EditPassword',
+  name: 'EditPwd',
   data() {
     const equalToPassword = (rule, value, callback) => {
       if (this.user.newPassword !== value) {
@@ -117,3 +117,5 @@ export default {
   }
 }
 </script>
+
+<style lang="less"></style>

@@ -9,13 +9,13 @@
             <div class="content-header">
               <div class="d-flex align-items-center">
                 <div class="mr-auto">
-                  <h4 class="page-title">账号</h4>
+                  <h4 class="page-title">账户</h4>
                   <div class="d-inline-block align-items-center">
                     <nav>
                       <ol class="breadcrumb">
                         <li class="breadcrumb-item"><router-link tag="a" to="/activityapproval"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
-                        <li class="breadcrumb-item" aria-current="page">用户信息模块</li>
-                        <li class="breadcrumb-item active" aria-current="page">账号</li>
+                        <li class="breadcrumb-item" aria-current="page">账户模块</li>
+                        <li class="breadcrumb-item active" aria-current="page">账户</li>
                       </ol>
                     </nav>
                   </div>
@@ -100,8 +100,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less">
 .content .box-body i{
-margin-right:15px
+    margin-right:15px
 }
 </style>

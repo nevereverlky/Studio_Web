@@ -1,5 +1,5 @@
 <template>
-  <div id="activityChapter">
+  <div id="importChapter">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -138,7 +138,7 @@
 <script>
 // import request from '../../utils/request'
 export default {
-  name: 'ActivityChapter',
+  name: 'ImportChapter',
   data() {
     return {
       dialogchapers: false
@@ -214,6 +214,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style lang="less"></style>

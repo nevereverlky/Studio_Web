@@ -1,3 +1,4 @@
+<!--头部组件-->
 <template>
   <div id="Topbar">
 
@@ -76,8 +77,8 @@
               </a>
               <ul class="dropdown-menu animated flipInX">
                 <li class="user-body">
-                  <router-link tag="a" to="/UserInfo" class="dropdown-item"><i class="fa fa fa-user text-muted mr-2"/>帐号</router-link>
-                  <router-link tag="a" to="/EditPassword" class="dropdown-item"><i class="fa fa-unlock-alt text-muted mr-2"/>修改密码</router-link>
+                  <router-link tag="a" to="/userinfo" class="dropdown-item"><i class="fa fa fa-user text-muted mr-2"/>账户</router-link>
+                  <router-link tag="a" to="/editpwd" class="dropdown-item"><i class="fa fa-unlock-alt text-muted mr-2"/>修改密码</router-link>
                   <div class="dropdown-divider"/>
                   <a class="dropdown-item" @click="tologin"><i class="fa fa-lock text-muted mr-2"/>注销</a>
                 </li>
@@ -122,5 +123,5 @@ export default {
 </script>
 
 <style lang="less">
-@import '../../assets/styles/Topbar.less';
+@import '../../styles/Topbar.less';
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="Authorization">
+  <div id="authority">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -170,9 +170,9 @@
 </template>
 
 <script>
-import request from '../../api/request'
+import request from '../../utils/request'
 export default {
-  name: 'Authorization',
+  name: 'Authority',
   data() {
     return {
       search_account: '',
@@ -274,6 +274,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style lang="less"></style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="chapterInout">
+  <div id="manageChapter">
     <div class="hold-transition sidebar-mini">
       <div class="wrapper">
 
@@ -181,9 +181,9 @@
 </template>
 
 <script>
-import request from '../../api/request'
+import request from '../../utils/request'
 export default {
-  name: 'ChapterInout',
+  name: 'ManageChapter',
   data() {
     return {
       search_account: '',
@@ -357,6 +357,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style lang="less"></style>
