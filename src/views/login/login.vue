@@ -49,7 +49,7 @@
 </template>
 
 <script>
-// import request from '../api/request'
+import request from '../../utils/request'
 export default {
   name: 'Login',
   data() {
@@ -64,25 +64,26 @@ export default {
     login() {
       const _this = this
       if (this.loginForm.account === '' || this.loginForm.password === '') {
-        // request.message(this, '账号或密码不能为空', 'warning')
+        request.message(this, '账号或密码不能为空', 'warning')
       } else {
-        // request.$post('', {
-        //   account: _this.loginForm.account,
-        //   password: _this.loginForm.password
-        // }, (res) => {
-        //   console.log(res.data);
-        //   let token = res.data.data.token;
-        //   request.localStorageSet('token', token);
+        request.$post('/user/login', {
+          account: _this.loginForm.account,
+          password: _this.loginForm.password
+        }, (res) => {
+          console.log(res.data);
+          let message = res.data.message;
+          let token = res.data.data.token;
+          request.localStorageSet('token', token);
         setTimeout(function() {
-          // if (_this.$route.query.redirect) {
-          //   _this.$router.push({path: decodeURIComponent(_this.$route.query.redirect)}) //跳转到原页面
-          // } else {
-          _this.$router.push({ name: 'Index' })// 正常登录流程进入的页面
-          //            }
-          location.reload()
+          if (_this.$route.query.redirect) {
+            _this.$router.push({ path: decodeURIComponent(_this.$route.query.redirect) }) //跳转到原页面
+          } else {
+            _this.$router.push({ path: '/' })// 正常登录流程进入的页面
+          }
+          // location.reload()
         }, 2000)
-        // request.message(_this, message, 'success')
-        // }, _this)
+        request.message(_this, message, 'success')
+        }, _this)
       }
     }
   }

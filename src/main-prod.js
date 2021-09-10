@@ -5,7 +5,7 @@ import store from './store'
 // import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 // import Vuex from 'vuex'
-// import axios from 'axios'
+import axios from 'axios'
 // import VueAxios from 'vue-axios'
 // import qs from 'QS'
 
@@ -18,7 +18,7 @@ import './assets/css/style.css'
 // Vue.prototype.$axios = axios
 // Vue.prototype.$qs = qs
 //配置请求的根路径
-// axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = '/api'
 Vue.config.productionTip = false
 
 Vue.filter('dateFormat', function (originVal) {
@@ -33,8 +33,20 @@ Vue.filter('dateFormat', function (originVal) {
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
 
-new Vue({
+// vue实例化
+var vue = new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  components: {
+    App
+  }
 }).$mount('#app')
+// 导出vue
+export default vue;
+
+// new Vue({
+//   router,
+//   store,
+//   render: h => h(App)
+// }).$mount('#app')
