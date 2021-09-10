@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-sm-5">
                   <div class="btn-group float-sm-right">
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" @click="turnBack">返回列表</button>
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" @click="$router.back()">返回列表</button>
                   </div>
                 </div>
               </div>
@@ -98,12 +98,6 @@ export default {
     }
   },
   methods: {
-    turnBack() {
-      this.$router.push({
-        path: '/approval',
-        name: 'approval'
-      })
-    }
   }
 }
 </script>

@@ -85,9 +85,9 @@
               </ul>
             </li>
             <li>
-              <a href="#" data-toggle="control-sidebar" title="Setting" class="waves-effect waves-light">
-                <i class="fa fa-cog"/>
-              </a>
+              <router-link tag="a" to="/history" data-toggle="control-sidebar" title="Setting" class="waves-effect waves-light">
+                <i class="fa fa-calendar-check-o"/>
+              </router-link>
             </li>
 
           </ul>
