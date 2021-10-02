@@ -18,43 +18,73 @@ const routes = [
     children: [
       {
         path: '/overview',
+        authname: '预警与总览',
         name: 'overView',
-        component: () => import('../views/overview/overView')
+        component: () => import('../views/overview/overView'),
+        children: []
       },
       {
-        path: '/inquiry',
-        name: 'inquiry',
-        component: () => import('../views/activity/inquiry')
+        path: '/activity',
+        authname: '活动模块',
+        component: () => import('../views/activity'),
+        children: [
+          {
+            path: '/inquiry',
+            authname: '活动查询与创建',
+            name: 'inquiry',
+            component: () => import('../views/activity/inquiry')
+          },
+          {
+            path: '/approval',
+            authname: '活动审批',
+            name: 'approval',
+            component: () => import('../views/activity/approval')
+          },
+          {
+            path: '/approvedetail',
+            authname: '活动审批详情',
+            name: 'approveDetail',
+            component: () => import('../views/activity/approveDetail')
+          },
+          {
+            path: '/authority',
+            authname: '权限分配',
+            name: 'authority',
+            component: () => import('../views/activity/authority')
+          },
+        ]
       },
       {
-        path: '/approval',
-        name: 'approval',
-        component: () => import('../views/activity/approval')
+        path: '/chapter',
+        authname: '活动章模块',
+        component: () => import('../views/chapter'),
+        children: [
+          {
+            path: '/import',
+            authname: '导入章',
+            name: 'importChapter',
+            component: () => import('../views/chapter/import')
+          },
+          {
+            path: '/manage',
+            authname: '导入/导出章',
+            name: 'manageChapter',
+            component: () => import('../views/chapter/manage')
+          },
+        ]
       },
       {
-        path: '/approvedetail',
-        name: 'approveDetail',
-        component: () => import('../views/activity/approveDetail')
-      },
-      {
-        path: '/authority',
-        name: 'authority',
-        component: () => import('../views/activity/authority')
-      },
-      {
-        path: '/import',
-        name: 'importChapter',
-        component: () => import('../views/chapter/import')
-      },
-      {
-        path: '/manage',
-        name: 'manageChapter',
-        component: () => import('../views/chapter/manage')
-      },
-      {
-        path: '/infoentry',
-        name: 'infoEntry',
-        component: () => import('../views/office/infoEntry')
+        path: '/office',
+        authname: '教务模块',
+        component: () => import('../views/office'),
+        children: [
+          {
+            path: '/infoentry',
+            authname: '新生信息录入',
+            name: 'infoEntry',
+            component: () => import('../views/office/infoEntry')
+          },
+        ]
       },
       {
         path: '/userinfo',
