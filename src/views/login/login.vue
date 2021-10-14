@@ -19,7 +19,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text bg-transparent text-primary"><i class="fa fa-user-o"/></span>
                         </div>
-                        <input v-model="loginForm.account" type="text" class="form-control pl-15 bg-transparent text-dark plc-white" placeholder="帐号">
+                        <input v-model="loginForm.username" type="text" class="form-control pl-15 bg-transparent text-dark plc-white" placeholder="帐号">
                       </div>
                     </div>
                     <div class="form-group">
@@ -55,35 +55,38 @@ export default {
   data() {
     return {
       loginForm: {
-        account: '',
+        username: '',
         password: ''
       }
     }
   },
   methods: {
     login() {
-      const _this = this
-      if (this.loginForm.account === '' || this.loginForm.password === '') {
+      let _this = this;
+      if (this.loginForm.username === '' || this.loginForm.password === '') {
         request.message(this, '账号或密码不能为空', 'warning')
       } else {
-        request.$post('/user/login', {
-          account: _this.loginForm.account,
+        request.$post('/user/managetoken', {
+          username: _this.loginForm.username,
           password: _this.loginForm.password
         }, (res) => {
-          console.log(res.data);
-          let message = res.data.message;
+          console.log('res.data', res.data);
+          let message = res.data.errorMsg;
           let token = res.data.data.token;
           request.localStorageSet('token', token);
-        setTimeout(function() {
-          if (_this.$route.query.redirect) {
-            _this.$router.push({ path: decodeURIComponent(_this.$route.query.redirect) }) //跳转到原页面
-          } else {
-            _this.$router.push({ path: '/' })// 正常登录流程进入的页面
-          }
-          // location.reload()
-        }, 2000)
-        request.message(_this, message, 'success')
-        }, _this)
+          setTimeout(function() {
+            if (_this.$route.query.redirect) {
+              _this.$router.push({ path: decodeURIComponent(_this.$route.query.redirect) }) //跳转到原页面
+            } else {
+              _this.$router.push({ path: '/' })// 正常登录流程进入的页面
+            }
+            request.$get('/user/routingtable', {},(res) => {
+              console.log('res.data', res.data);
+            }, this)
+            // location.reload()
+          }, 2000)
+          request.message(_this, message, 'success')
+          }, this)
       }
     }
   }
