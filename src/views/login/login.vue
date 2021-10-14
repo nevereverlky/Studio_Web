@@ -62,26 +62,30 @@ export default {
   },
   methods: {
     login() {
+      let _this = this;
       if (this.loginForm.username === '' || this.loginForm.password === '') {
         request.message(this, '账号或密码不能为空', 'warning')
       } else {
         request.$post('/user/managetoken', {
-          username: this.loginForm.username,
-          password: this.loginForm.password
+          username: _this.loginForm.username,
+          password: _this.loginForm.password
         }, (res) => {
           console.log('res.data', res.data);
-          let message = res.data.userInfo;
+          let message = res.data.errorMsg;
           let token = res.data.data.token;
           request.localStorageSet('token', token);
           setTimeout(function() {
-            if (this.$route.query.redirect) {
-              this.$router.push({ path: decodeURIComponent(this.$route.query.redirect) }) //跳转到原页面
+            if (_this.$route.query.redirect) {
+              _this.$router.push({ path: decodeURIComponent(_this.$route.query.redirect) }) //跳转到原页面
             } else {
-              this.$router.push({ path: '/' })// 正常登录流程进入的页面
+              _this.$router.push({ path: '/' })// 正常登录流程进入的页面
             }
+            request.$get('/user/routingtable', {},(res) => {
+              console.log('res.data', res.data);
+            }, this)
             // location.reload()
           }, 2000)
-          request.message(this, message, 'success')
+          request.message(_this, message, 'success')
           }, this)
       }
     }

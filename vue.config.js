@@ -154,17 +154,6 @@ module.exports = {
         https: false,
         hot: true,//hot配置是否启用模块的热替换功能，devServer的默认行为是在发现源代码被变更后，通过自动刷新整个页面来做到事实预览，开启hot后，将在不刷新整个页面的情况下通过新模块替换老模块来做到实时预览。
         hotOnly: false,// hot 和 hotOnly 的区别是在某些模块不支持热更新的情况下，前者会自动刷新页面，后者不会刷新页面，而是在控制台输出热更新失败
-        // proxy: {
-        //     '/api': {
-        //         target:'', // 你请求的第三方接口
-        //         changeOrigin:true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
-        //         ws:false,
-        //         secure: false, // 如果是https接口，需要配置这个参数
-        //         pathRewrite:{  // 路径重写，
-        //             '^/api': ''  // 替换target中的请求地址，也就是说以后你在请求http://这个地址的时候直接写成/api即可。
-        //         }
-        //     }
-        // }
         proxy: {
           '/api': {
              target:'http://47.98.37.45:8080', // 你请求的第三方接口
@@ -172,7 +161,7 @@ module.exports = {
              ws:false,
              secure: false, // 如果是https接口，需要配置这个参数
              pathRewrite:{  // 路径重写，
-              '^/api': ''  // 替换target中的请求地址，也就是说以后你在请求http://这个地址的时候直接写成/api即可。
+              '^/api': 'http://47.98.37.45:8080'  // 替换target中的请求地址，也就是说以后你在请求http://这个地址的时候直接写成/api即可。
              }
           }
        },

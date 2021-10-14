@@ -13,7 +13,7 @@ export default {
         }
       }
     ).then((res) => {
-      if (res.data.code === '200') {
+      if (res.data.errorCode === '200') {
         success(res)
       } else {
         this.todoError(res, that)
@@ -32,7 +32,7 @@ export default {
         }
       }
     ).then((res) => {
-      if (res.data.code === '200') {
+      if (res.data.errorCode === '200') {
         success(res)
       } else {
         this.todoError(res, that)
@@ -50,7 +50,7 @@ export default {
         }
       }
     ).then((res) => {
-      if (res.data.code === '200') {
+      if (res.data.errorCode === '200') {
         success(res)
       } else {
         this.todoError(res, that)
@@ -78,7 +78,7 @@ export default {
     return null
   },
   todoError(res, that) {
-    if (res.data.code === '401') {
+    if (res.data.errorCode === '401') {
       localStorage.removeItem('token')
     } else {
       this.message(that, res.data.message, 'error')
