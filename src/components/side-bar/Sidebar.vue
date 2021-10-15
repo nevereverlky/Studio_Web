@@ -35,14 +35,14 @@
                 <i class="fa-icon fa fa-desktop"/>
                 <span>预警与总览</span>
               </el-menu-item>
-              <el-submenu index="1">
+              <el-submenu index="1" v-if="true">
                 <template slot="title">
                   <i class="fa-icon fa fa-camera-retro" />
                   <span>活动模块</span>
                 </template>
                 <el-menu-item index="/inquiry"><i class="fa fa-ellipsis-h"/>活动查询与创建</el-menu-item>
                 <el-menu-item index="/approval"><i class="fa fa-ellipsis-h"/>活动审批</el-menu-item>
-                <el-menu-item index="/authority"><i class="fa fa-ellipsis-h"/>权限分配</el-menu-item>
+                <el-menu-item index="/authority" v-if="true"><i class="fa fa-ellipsis-h"/>权限分配</el-menu-item>
               </el-submenu>
               <el-submenu index="2">
                 <template slot="title">
