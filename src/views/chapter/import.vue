@@ -13,7 +13,7 @@
                   <div class="d-inline-block align-items-center">
                     <nav>
                       <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><router-link tag="a" to="/activitychapter"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
+                        <li class="breadcrumb-item"><router-link tag="a" to="/chapter"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
                         <li class="breadcrumb-item" aria-current="page">活动章模块</li>
                         <li class="breadcrumb-item active" aria-current="page">导入章</li>
                       </ol>
@@ -25,71 +25,49 @@
 
             <!-- Main content -->
             <section class="content">
-              <div class="col-12" style="display: flex">
-                <div class="col-md-4">
-                  <div class="box box-solid bg-success">
-                    <div class="box-header">
-                      <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
+              <div v-if="activityData.length !== 0">
+                <el-row>
+                  <div v-for="item in activityData" :key="item.activityId">
+                    <el-col :span="7" style="margin: 10px 15px">
+                      <div class="box box-solid bg-success">
+                        <div class="box-header">
+                          <h6 class="box-title"><strong>{{item.activityName}}</strong></h6>
+                        </div>
+                        <div class="box-body">
+                          <p><b style="margin-right: 20px">举办单位</b>{{item.organizationMessage}}</p>
+                          <p><b style="margin-right: 20px">活动地点</b>{{item.location}}</p>
+                          <p><b style="margin-right: 20px">申请章数</b><span class="badge badge-primary">{{item.applicationStamper}}</span></p>
+                          <p><b style="margin-right: 20px">活动时间</b>
+                          {{item.start | dateFormat}}<br>——{{item.end | dateFormat}}</p>
+                          <p><b style="margin-right: 20px">扫章时间</b>
+                          {{item.activityStampedStart | dateFormat}}<br>——{{item.activityStampedEnd | dateFormat}}</p>
+                          <center><el-tooltip class="item" effect="dark" content="仅可导章一次" placement="bottom">
+                            <button class="btn btn-primary btn-flat btn-sm center" @click="getid(item.activityId);dialogchapers = true" :disabled="item.state === 'FINISHED'">Excel批量导章</button>
+                          </el-tooltip></center>
+                        </div>
+                      </div>
+                    </el-col>
+                  </div>
+                </el-row>
 
-                    </div>
-                    <div class="box-body">
-                      <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学生社团联合会</p>
-                      <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">512</span></p>
-                      <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
-                      <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
-                      <center><el-tooltip class="item" effect="dark" content="仅可导章一次" placement="bottom">
-                        <button class="btn btn-primary btn-flat btn-sm center" @click="dialogchapers = true">Excel批量导章</button>
-                      </el-tooltip></center>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="box box-solid bg-success">
-                    <div class="box-header">
-                      <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
-                    </div>
-                    <div class="box-body">
-                      <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;社团联</p>
-                      <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">512</span></p>
-                      <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
-                      <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
-                      <center><button class="btn btn-primary btn-flat btn-sm center" style="cursor: not-allowed" disabled>Excel批量导章</button></center>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="box box-solid bg-success">
-                    <div class="box-header">
-                      <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
-                    </div>
-                    <div class="box-body">
-                      <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;社团联</p>
-                      <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">512</span></p>
-                      <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
-                      <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
-                      <center><button class="btn btn-primary btn-flat btn-sm center">Excel批量导章</button></center>
-                    </div>
-                  </div>
+                 <div class="block" style="margin-top:15px;margin-bottom:40px;float: right">
+                    <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                      :current-page="currentPage"
+                      :page-sizes="[6,12,18]"
+                      :page-size="pageSize"
+                      layout="total, sizes, prev, pager, next, jumper"
+                      :total="activityData_length">
+                    </el-pagination>
                 </div>
               </div>
-              <div class="col-12" style="display: flex">
-                <div class="col-md-4">
-                  <div class="box box-solid bg-success">
-                    <div class="box-header">
-                      <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
-                    </div>
-                    <div class="box-body">
-                      <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;社团联</p>
-                      <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">512</span></p>
-                      <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
-                      <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
-                      <center><button class="btn btn-primary btn-flat btn-sm center">Excel批量导章</button></center>
-                    </div>
+
+              <div v-else class="col-12 col-lg-2 col-xl-2 text-center" style="display: flex;align-items: center;margin-left: 40%">
+                <div class="card-body">
+                  <div class="icon-box">
+                    <i class="fa fa-file-o"></i>                 
                   </div>
+                  <hr>
+                    <h5 class="mb-0 mt-3">暂无</h5>
                 </div>
               </div>
             </section>
@@ -136,80 +114,197 @@
 </template>
 
 <script>
-// import request from '../../utils/request'
+import request from '../../utils/request'
 export default {
   name: 'ImportChapter',
   data() {
     return {
-      dialogchapers: false
+      userId: '', //用户ID
+      activityId: '', //活动ID
+      dialogchapers: false,
+      currentPage: 1, // 当前页码
+      total: 20, // 总条数
+      activityData_length: 0, // 总条目数
+      pageSize: 10, // 每页的数据条数
+      fileList: [],
+      activityData: [
+        {
+          activityId: '201812011',
+          activityName: '图书馆数字资源培训讲座',
+          type: 'lectureActivity',
+          organizationMessage: '学生社团联合会',
+          location: '图书馆讲堂',
+          applicationStamper: 150,
+          activityStampedStart: 1538969114000,
+          activityStampedEnd: 1538875514000,
+          start: 1570497914000,
+          end: 1538969114000,
+          state: 'FINISHED'
+        },
+        {
+          activityId: '201812011',
+          activityName: '图书馆数字资源培训讲座',
+          type: 'lectureActivity',
+          organizationMessage: '学生社团联合会',
+          location: '图书馆讲堂',
+          applicationStamper: 150,
+          activityStampedStart: 1538969114000,
+          activityStampedEnd: 1538875514000,
+          start: 1570497914000,
+          end: 1538969114000,
+          state: ''
+        },
+        {
+          activityId: '201812011',
+          activityName: '图书馆数字资源培训讲座',
+          type: 'lectureActivity',
+          organizationMessage: '学生社团联合会',
+          location: '图书馆讲堂',
+          applicationStamper: 150,
+          activityStampedStart: 1538969114000,
+          activityStampedEnd: 1538875514000,
+          start: 1570497914000,
+          end: 1538969114000,
+          state: ''
+        },
+        {
+          activityId: '201812011',
+          activityName: '图书馆数字资源培训讲座',
+          type: 'lectureActivity',
+          organizationMessage: '学生社团联合会',
+          location: '图书馆讲堂',
+          applicationStamper: 150,
+          activityStampedStart: 1538969114000,
+          activityStampedEnd: 1538875514000,
+          start: 1570497914000,
+          end: 1538969114000,
+          state: ''
+        },
+        {
+          activityId: '201812011',
+          activityName: '图书馆数字资源培训讲座',
+          type: 'lectureActivity',
+          organizationMessage: '学生社团联合会',
+          location: '图书馆讲堂',
+          applicationStamper: 150,
+          activityStampedStart: 1538969114000,
+          activityStampedEnd: 1538875514000,
+          start: 1570497914000,
+          end: 1538969114000,
+          state: ''
+        }
+      ]
     }
   },
+  created () {
+    let userId = request.localStorageGet('userId');
+    this.userId = userId;
+    // this.getActivityData();
+  },
   methods: {
+    // 每页条数改变时触发 选择一页显示多少行
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`);
+      this.currentPage = 1;
+      this.pageSize = val;
+      this.getActivityData();
+    },
+    // 当前页改变时触发 跳转其他页
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.getActivityData();
+    },
+    getActivityData() {
+      let _this = this;
+      request.$get('/activity/getActivityListByUserID', {
+        userId: _this.userId,
+        page: _this.currentPage,
+        limit: _this.pageSize,
+        orderRule: ''
+      }, (res) => {
+        console.log(res.data);
+        let totalPages = res.data.data.totalPages;
+        let activityData = res.data.data.content;
+        _this.activityData = activityData;
+        // _this.finalShow = activityData;
+        _this.activityData_length = totalPages;
+      }, _this)
+    },
+    getid(e) {
+      this.activityId = e;
+    },
     clearFiles() {
+      this.fileList = [];
       this.dialogchapers = false
+    },
+    submitUpload () {
+      let _this = this
+      const loading = _this.$loading({
+        lock: true,
+        text: '操作执行中，请稍后',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      request.openFullScreen(_this);
+      if (_this.fileList.length === 0) {
+        request.message(_this, '请先选择文件', 'warning');
+        request.closeFullScreen(request.openFullScreen(_this));
+      } else {
+        const isLt10240K = _this.fileList.every(file => file.size / 1024 / 1024 / 1024 < 10240);
+        if (!isLt10240K) {
+          request.message(_this, '请检查，上传文件大小不能超过10MB!', 'error');
+          request.closeFullScreen(request.openFullScreen(_this));
+        } else {
+          var formData = new FormData(); //  用FormData存放上传文件
+          _this.fileList.forEach(file => {
+            formData.append('file', file.raw, file.raw.name);
+          })
+          // 向webapi发起请求，等待后台接收
+          request.$postFileList('/activityStamp/importExcel', formData, 
+          {
+            userId: _this.userId,
+            activityId: _this.activityId
+          }, (res) => {
+            console.log(res.data)
+            let message = res.data.errorMsg
+            setTimeout(() => {
+              request.closeFullScreen(request.openFullScreen(_this));
+              _this.reload();
+              request.message(_this, message, 'success');
+              _this.fileList = [];
+              _this.dialogchapers = false;
+            }, 1000);
+          }, _this);
+          setTimeout(() => {
+            loading.close();
+          }, 2000);
+        }
+      }
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    //移除
+    handleRemove(file, fileList) {
+      this.fileList = fileList;
+    },
+    beforeRemove(file) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    // 选取文件超过数量提示
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    //监控上传文件列表
+    handleChange(file, fileList) {
+      let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name);
+      if (existFile) {
+        this.$message.error('当前文件已经存在!');
+        fileList.pop();
+      }
+      this.fileList = fileList;
     }
-    // submitUpload() {
-    //   let _this = this
-    //   // const loading = _this.$loading({
-    //   //   lock: true,
-    //   //   text: '操作执行中，请稍后',
-    //   //   spinner: 'el-icon-loading',
-    //   //   background: 'rgba(0, 0, 0, 0.7)'
-    //   // });
-    //   request.openFullScreen(_this);
-    //   if (_this.fileList.length === 0) {
-    //     request.message(_this, '请先选择文件', 'warning');
-    //     request.closeFullScreen(request.openFullScreen(_this));
-    //   } else {
-    //     const isLt10240K = _this.fileList.every(file => file.size / 1024 / 1024 / 1024 < 10240);
-    //     if (!isLt10240K) {
-    //       request.message(_this, '请检查，上传文件大小不能超过10MB!', 'error');
-    //       request.closeFullScreen(request.openFullScreen(_this));
-    //     } else {
-    //       var formData = new FormData(); //  用FormData存放上传文件
-    //       _this.fileList.forEach(file => {
-    //         formData.append('file', file.raw, file.raw.name);
-    //       })
-    //       //向webapi发起请求，等待后台接收
-    //       request.$postFileList('/user/user/import', formData, {},(res) => {
-    //         console.log(res.data.data)
-    //         setTimeout(() => {
-    //           request.closeFullScreen(request.openFullScreen(_this));
-    //           _this.reload();
-    //           request.message(_this, '导入成功!', 'success');
-    //           _this.fileList = [];
-    //           _this.dialogusers = false;
-    //         }, 1000);
-    //       }, _this);
-    //       setTimeout(() => {
-    //         loading.close();
-    //       }, 2000);
-    //     }
-    //   }
-    // },
-    // handlePreview(file) {
-    //   console.log(file);
-    // },
-    // //移除
-    // handleRemove(file, fileList) {
-    //   this.fileList = fileList;
-    // },
-    // beforeRemove(file, fileList) {
-    //   return this.$confirm(`确定移除 ${ file.name }？`);
-    // },
-    // // 选取文件超过数量提示
-    // handleExceed(files, fileList) {
-    //   this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    // },
-    // //监控上传文件列表
-    // handleChange(file, fileList) {
-    //   let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name);
-    //   if (existFile) {
-    //     this.$message.error('当前文件已经存在!');
-    //     fileList.pop();
-    //   }
-    //   this.fileList = fileList;
-    // },
   }
 }
 </script>

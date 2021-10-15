@@ -73,6 +73,8 @@ export default {
           console.log('res.data', res.data);
           let message = res.data.errorMsg;
           let token = res.data.data.token;
+          let userId = res.data.data.userId;
+          request.localStorageSet('userId', userId);
           request.localStorageSet('token', token);
           setTimeout(function() {
             if (_this.$route.query.redirect) {
