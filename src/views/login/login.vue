@@ -50,8 +50,8 @@
 
 <script>
 // import request from '../../utils/request'
-import { login } from '@/api/user'
-import { localStorageSet, messageInfo } from '../../utils/util'
+import { login, getRouters } from '@/api/user'
+import { localStorageSet, messageInfo } from '@/utils/util'
 
 export default {
   name: 'Login',
@@ -72,21 +72,33 @@ export default {
         // let params = {username: _this.loginForm.username, password: _this.loginForm.password}
         login({username: _this.loginForm.username, password: _this.loginForm.password}).then((res) => {
           console.log('res.data', res.data);
-          let message = res.data.errorMsg;
-          let token = res.data.data.token;
+          let message = res.errorMsg;
+          let token = res.data.token;
           localStorageSet('token', token);
+          let routers = []
+          getRouters().then((res) => {
+            console.log('resrouter', res.data)
+            res && res.data.map((item) => {
+              item.path && routers.push(item.path)
+              if(item.haveChildren) {
+                item.children.map((item2) => {
+                  item2.path && routers.push(item2.path)
+                })
+              }
+            })
+            localStorageSet('routers', routers)
+          })
           setTimeout(function() {
             if (_this.$route.query.redirect) {
               _this.$router.push({ path: decodeURIComponent(_this.$route.query.redirect) }) //跳转到原页面
             } else {
               _this.$router.push({ path: '/' })// 正常登录流程进入的页面
             }
-            // request.$get('/user/routingtable', {},(res) => {
-            //   console.log('res.data', res.data);
-            // }, this)
-            // location.reload()
+            // getRouters().then((res) => {
+            //   console.log('routers', res)
+            // })
           }, 2000)
-          messageInfo(message, 'success')
+          messageInfo(this, message, 'success')
         })
         // request.$post('/user/managetoken', {
         //   username: _this.loginForm.username,

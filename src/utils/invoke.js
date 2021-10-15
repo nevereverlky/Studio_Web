@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { localStorageGet, messageInfo } from './util'
+import qs from 'qs'
 
 // 重试上限次数
 axios.defaults.retry = 4
@@ -18,7 +19,7 @@ export default function request(option) {
 		instance.interceptors.request.use((config) => {
       // 请求头其他信息
       config.headers['Authorization'] = localStorageGet('token')
-      
+      config.data = qs.stringify(config.data)
       return config
     },
     error => Promise.reject(error))

@@ -1,5 +1,4 @@
 import qs from 'qs'
-// import { Message } from 'element-ui'
 
 export function localStorageSet(key, value, ttl) {
   localStorage.setItem(key, qs.stringify({
@@ -21,8 +20,8 @@ export function localStorageGet(key) {
   return null
 }
 
-export function messageInfo(message, type) {
-  return this.$message({
+export function messageInfo(that, message, type) {
+  return that.$message({
     message: message,
     type: type
   })

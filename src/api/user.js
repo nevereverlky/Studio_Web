@@ -4,6 +4,13 @@ export function login(data) {
   return request({
     url: "/user/managetoken",
     method: 'post',
-    data: data
+    data
+  })
+}
+
+export function getRouters() {
+  return request({
+    url: "/user/routingtable",
+    method: 'get'
   })
 }

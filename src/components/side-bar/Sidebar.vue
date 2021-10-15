@@ -31,33 +31,33 @@
               active-text-color="#1bc5bd"
               @open="handleOpen"
               @close="handleClose">
-              <el-menu-item index="/overview">
+              <el-menu-item index="/overview" v-if="checkModulePermission('/overview')">
                 <i class="fa-icon fa fa-desktop"/>
                 <span>预警与总览</span>
               </el-menu-item>
-              <el-submenu index="1" v-if="true">
+              <el-submenu index="1">
                 <template slot="title">
                   <i class="fa-icon fa fa-camera-retro" />
                   <span>活动模块</span>
                 </template>
-                <el-menu-item index="/inquiry"><i class="fa fa-ellipsis-h"/>活动查询与创建</el-menu-item>
-                <el-menu-item index="/approval"><i class="fa fa-ellipsis-h"/>活动审批</el-menu-item>
-                <el-menu-item index="/authority" v-if="true"><i class="fa fa-ellipsis-h"/>权限分配</el-menu-item>
+                <el-menu-item index="/inquiry" v-if="checkModulePermission('/inquiry')"><i class="fa fa-ellipsis-h"/>活动查询与创建</el-menu-item>
+                <el-menu-item index="/approval" v-if="checkModulePermission('/approval')"><i class="fa fa-ellipsis-h"/>活动审批</el-menu-item>
+                <el-menu-item index="/authority" v-if="checkModulePermission('/authority')"><i class="fa fa-ellipsis-h"/>权限分配</el-menu-item>
               </el-submenu>
               <el-submenu index="2">
                 <template slot="title">
                   <i class="fa-icon fa fa-cloud-upload" />
                   <span>活动章模块</span>
                 </template>
-                <el-menu-item index="/import"><i class="fa fa-ellipsis-h"/>导入章</el-menu-item>
-                <el-menu-item index="/manage"><i class="fa fa-ellipsis-h"/>导入/导出章</el-menu-item>
+                <el-menu-item index="/import" v-if="checkModulePermission('/import')"><i class="fa fa-ellipsis-h"/>导入章</el-menu-item>
+                <el-menu-item index="/manage" v-if="checkModulePermission('/manage')"><i class="fa fa-ellipsis-h"/>导入/导出章</el-menu-item>
               </el-submenu>
               <el-submenu index="3">
                 <template slot="title">
                   <i class="fa-icon fa fa-vcard-o"/>
                   <span>教务模块</span>
                 </template>
-                <el-menu-item index="/infoentry"><i class="fa fa-ellipsis-h"/>新生信息录入</el-menu-item>
+                <el-menu-item index="/infoentry" v-if="checkModulePermission('/infoentry')"><i class="fa fa-ellipsis-h"/>新生信息录入</el-menu-item>
               </el-submenu>
             </el-menu>
           </el-col>
@@ -69,14 +69,25 @@
 </template>
 
 <script>
+// import checkModulePermission from '@/utils/check-module-permission'
+import { localStorageGet } from '@/utils/util'
+
 export default {
   name: 'Sidebar',
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
+      routers: []
     }
   },
+  mounted() {
+    
+  },
   methods: {
+    checkModulePermission(index) {
+      const arr = localStorageGet('routers')
+      return arr.includes(index)
+    },
     tologin() {
       const _this = this
       // request.$post('/user/logout', {}, (res) => {
