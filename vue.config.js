@@ -9,6 +9,12 @@ const isProduction = process.env.NODE_ENV !== 'development';
 // gzip压缩
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
+const api = 'http://47.98.37.45:8080' // 开发环境
+
+const path = require('path')
+
+const resolve = (dir) => path.join(__dirname, '.', dir);
+
 const cdn = {
   // 忽略打包的第三方库
   externals: {
@@ -60,6 +66,8 @@ module.exports = {
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: false,
     chainWebpack: (config) => {
+      config.resolve.alias
+            .set('@', resolve('src')) 
        // npm run prod (发布模式)
       config.when(process.env.NODE_ENV === 'production', config => {
         config
@@ -156,12 +164,12 @@ module.exports = {
         hotOnly: false,// hot 和 hotOnly 的区别是在某些模块不支持热更新的情况下，前者会自动刷新页面，后者不会刷新页面，而是在控制台输出热更新失败
         proxy: {
           '/api': {
-             target:'http://47.98.37.45:8080', // 你请求的第三方接口
-             changeOrigin:true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
-             ws:false,
+             target: api, // 你请求的第三方接口
+             changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
+             ws: false,
              secure: false, // 如果是https接口，需要配置这个参数
              pathRewrite:{  // 路径重写，
-              '^/api': 'http://47.98.37.45:8080'  // 替换target中的请求地址，也就是说以后你在请求http://这个地址的时候直接写成/api即可。
+              '^/api': ''  // 替换target中的请求地址，也就是说以后你在请求http://这个地址的时候直接写成/api即可。
              }
           }
        },
