@@ -31,11 +31,11 @@
               active-text-color="#1bc5bd"
               @open="handleOpen"
               @close="handleClose">
-              <el-menu-item index="/overview" v-if="checkModulePermission('/overview')">
+              <el-menu-item index="/overview">
                 <i class="fa-icon fa fa-desktop"/>
                 <span>预警与总览</span>
               </el-menu-item>
-              <el-submenu index="1">
+              <el-submenu index="1" v-if="checkModulePermission('/inquiry')||checkModulePermission('/approval')||checkModulePermission('/authority')">
                 <template slot="title">
                   <i class="fa-icon fa fa-camera-retro" />
                   <span>活动模块</span>
@@ -44,7 +44,7 @@
                 <el-menu-item index="/approval" v-if="checkModulePermission('/approval')"><i class="fa fa-ellipsis-h"/>活动审批</el-menu-item>
                 <el-menu-item index="/authority" v-if="checkModulePermission('/authority')"><i class="fa fa-ellipsis-h"/>权限分配</el-menu-item>
               </el-submenu>
-              <el-submenu index="2">
+              <el-submenu index="2" v-if="checkModulePermission('/import')||checkModulePermission('/manage')">
                 <template slot="title">
                   <i class="fa-icon fa fa-cloud-upload" />
                   <span>活动章模块</span>
@@ -52,7 +52,7 @@
                 <el-menu-item index="/import" v-if="checkModulePermission('/import')"><i class="fa fa-ellipsis-h"/>导入章</el-menu-item>
                 <el-menu-item index="/manage" v-if="checkModulePermission('/manage')"><i class="fa fa-ellipsis-h"/>导入/导出章</el-menu-item>
               </el-submenu>
-              <el-submenu index="3">
+              <el-submenu index="3" v-if="checkModulePermission('/infoentry')">
                 <template slot="title">
                   <i class="fa-icon fa fa-vcard-o"/>
                   <span>教务模块</span>
