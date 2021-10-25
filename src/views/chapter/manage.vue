@@ -13,7 +13,7 @@
                   <div class="d-inline-block align-items-center">
                     <nav>
                       <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><router-link tag="a" to="/chapterinout"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
+                        <li class="breadcrumb-item"><router-link tag="a" to="/manage"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
                         <li class="breadcrumb-item" aria-current="page">活动章模块</li>
                         <li class="breadcrumb-item active" aria-current="page">导入/导出章</li>
                       </ol>
@@ -28,7 +28,8 @@
               <div>
                 <!--finalShow.slice((currentPage-1)*pageSize,currentPage*pageSize)-->
                 <el-table
-                  :data="activeData"
+                  v-loading="loading"
+                  :data="activityData"
                   :header-cell-style="{color: 'black', fontSize: '13px'}"
                   style="width: 100%"
                   cell-style="font-size: 13px">
@@ -37,27 +38,27 @@
                     <template slot="header" slot-scope="scope">
                       <div style="display: flex;flex-direction: row;justify-content: space-between">
                         <el-input
-                          v-model="search_account"
+                          v-model="search_stuId"
                           scope
                           style="width: 15%"
                           size="mini"
                           placeholder="按照负责人学号搜索"/>
                         <el-input
-                          v-model="search_activename"
+                          v-model="search_activityName"
                           scope
                           style="width: 15%"
                           size="mini"
                           placeholder="按照活动名称搜索"/>
                         <el-input
-                          v-model="search_organization"
+                          v-model="search_organizationMessage"
                           scope
                           style="width: 20%"
                           size="mini"
                           placeholder="按照举办单位搜索"/>
                         <el-date-picker
-                          v-model="search_activeDate"
+                          v-model="search_activityStamped"
                           :default-time="['12:00:00']"
-                          style="width: 25%"
+                          style="width: 30%"
                           size="mini"
                           type="datetimerange"
                           start-placeholder="搜索扫章开始时间"
@@ -68,17 +69,28 @@
                     <el-table-column
                       label="负责人"
                       prop="account"
-                      width="100">
+                      width="150">
                       <template slot-scope="scope">
-                        {{ scope.row.account }}
+                        {{ scope.row.stuId }}
                       </template>
                     </el-table-column>
                     <el-table-column
                       label="活动名称"
                       prop="activename">
                       <template slot-scope="scope">
-                        {{ scope.row.activename }}
-                        <span class="badge badge-dark" style="margin-left: 5px">{{ scope.row.type }}</span>
+                        <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'lectureActivity'">
+                          讲座活动
+                        </span>
+                        <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'schoolActivity'">
+                          校园活动
+                        </span>
+                        <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'volunteerActivity'">
+                          志愿活动
+                        </span>
+                        <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'practiceActivity'">
+                          实践活动
+                        </span>
+                        {{ scope.row.activityName }}
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -86,7 +98,7 @@
                       prop="organization"
                       width="140">
                       <template slot-scope="scope">
-                        {{ scope.row.organization }}
+                        {{ scope.row.organizationMessage }}
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -94,7 +106,7 @@
                       prop="place"
                       width="100">
                       <template slot-scope="scope">
-                        {{ scope.row.place }}
+                        {{ scope.row.location }}
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -102,7 +114,7 @@
                       prop="time"
                       width="180">
                       <template slot-scope="scope">
-                        {{ scope.row.time }}
+                         {{scope.row.activityStampedStart | dateFormat}}<br>——{{scope.row.activityStampedEnd | dateFormat}}
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -111,7 +123,7 @@
                       width="100">
                       <!-- eslint-disable-next-line -->
                       <template slot-scope="scope">
-                        {{ scope.row.requestnum }}
+                        {{ scope.row.applicationStamper }}
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -120,19 +132,19 @@
                       width="150">
                       <!-- eslint-disable-next-line -->
                       <template slot-scope="scope">
-                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="dialogchapers = true">导入</button>
-                        <button type="button" class="btn btn-sm btn-success btn-outline waves-effect waves-light m-1">导出</button>
+                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="getid(scope.row.activityId);dialogchapers = true">导入</button>
+                        <button type="button" class="btn btn-sm btn-success btn-outline waves-effect waves-light m-1" @click="getDownload(scope.row.activityId)">导出</button>
                       </template>
                     </el-table-column>
                   </el-table-column>
                 </el-table>
 
-                <div class="block" style="margin-top:30px;float: right">
+                <div class="block" style="margin-top: 30px;float: right;margin-bottom: 30px">
                   <el-pagination
                     :current-page="currentPage"
                     :page-sizes="[10,20,50]"
                     :page-size="pageSize"
-                    :total="activeData_length"
+                    :total="activityData_length"
                     align="center"
                     layout="total, sizes, prev, pager, next, jumper"
                     @size-change="handleSizeChange"
@@ -184,175 +196,226 @@
 import request from '../../utils/request'
 export default {
   name: 'ManageChapter',
+  inject: ['reload'],
   data() {
     return {
-      search_account: '',
-      search_activename: '',
-      search_organization: '',
-      search_activeDate: '',
-      search_activeDateBegin: '',
-      search_activeDateEnd: '',
+      userId: '', //用户ID
+      activityId: '', //活动ID
+      search_stuId: '',
+      search_activityName: '',
+      search_organizationMessage: '',
+      search_activityStamped: '',
+      search_activityStampedStart: '',
+      search_activityStampedEnd: '',
       dialogchapers: false,
+      loading: true,
       currentPage: 1, // 当前页码
       total: 20, // 总条数
-      activeData_length: 0, // 总条目数
+      activityData_length: 0, // 总条目数
       pageSize: 10, // 每页的数据条数
-      authority: true,
-      activeData: [
-        {
-          account: '199050702',
-          activename: 'XXXXXX志愿活动',
-          type: '志愿活动',
-          organization: '社团联',
-          place: 'C楼511',
-          time: '2021.7.16 12:00 ~ 13:00',
-          requestnum: 512
-        },
-        {
-          account: '199050702',
-          activename: 'XXXXXX志愿活动',
-          type: '志愿活动',
-          organization: '社团联',
-          place: 'C楼511',
-          time: '2021.7.16 12:00 ~ 13:00',
-          requestnum: 512
-        }
-      ]
+      fileList: [],
+      activityData: []
     }
+  },
+  created () {
+    let userId = request.localStorageGet('userId');
+    this.userId = userId;
+    this.getActivityData();
   },
   watch: {
     // watch监视input输入值的变化,只要是watch变化了 search()就会被调用
-    search_account(newVal) {
-      this.handleSearch_account(newVal)
+    search_stuId(newVal) {
+      this.handleSearch_stuId(newVal)
     },
-    search_activename(newVal) {
-      this.handleSearch_activename(newVal)
+    search_activityName(newVal) {
+      this.handleSearch_activityName(newVal)
     },
-    search_organization(newVal) {
-      this.handleSearch_organization(newVal)
+    search_organizationMessage(newVal) {
+      this.handleSearch_organizationMessage(newVal)
     },
-    search_activeDate(newVal) {
-      this.handleSearch_activeDate(newVal)
+    search_activityStamped(newVal) {
+      this.handleSearch_activityStamped(newVal)
     }
   },
   methods: {
     // 每页条数改变时触发 选择一页显示多少行
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
-      this.currentPage = 1
-      this.pageSize = val
+      console.log(`每页 ${val} 条`);
+      this.currentPage = 1;
+      this.pageSize = val;
+      this.getActivityData();
     },
     // 当前页改变时触发 跳转其他页
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
-      this.currentPage = val
+      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.getActivityData();
     },
     reset() {
-      this.search_account = ''
-      this.search_activename = ''
-      this.search_organization = ''
-      this.search_activeDate = ''
-      this.search_activeDateBegin = ''
-      this.search_activeDateEnd = ''
+      this.search_stuId = ''
+      this.search_activityName = ''
+      this.search_organizationMessage = ''
+      this.search_activityStamped = ''
+      this.search_activityStampedStart = ''
+      this.search_activityStampedEnd = ''
       request.message(this, '重置成功', 'success')
+      this.getActivityData();
     },
-    handleSearch_account(val) {
+    handleSearch_stuId(val) {
       const search = val
-      this.search_account = search
-      this.currentPage = 1
+      this.search_stuId = search
+      this.currentPage = 1;
+      this.getActivityData();
     },
-    handleSearch_activename(val) {
+    handleSearch_activityName(val) {
       const search = val
-      this.search_activename = search
-      this.currentPage = 1
+      this.search_activityName = search
+      this.currentPage = 1;
+      this.getActivityData();
     },
-    handleSearch_organization(val) {
+    handleSearch_organizationMessage(val) {
       const search = val
-      this.search_organization = search
-      this.currentPage = 1
+      this.search_organizationMessage = search
+      this.currentPage = 1;
+      this.getActivityData();
     },
-    handleSearch_activeDate(val) {
+    formateTime (time) {
+      let times = new Date(time)
+      let year = times.getFullYear()
+      let month = times.getMonth() + 1 > 9 ? times.getMonth() + 1 : 0 + (times.getMonth() + 1)
+      let date = times.getDate() > 9 ? times.getDate() : 0 + times.getDate()
+      let hour = times.getHours() > 9 ? times.getHours() : 0 + times.getHours()
+      let minute = times.getMinutes() > 9 ? times.getMinutes() : 0 + times.getMinutes()
+      let second = times.getSeconds() > 9 ? times.getSeconds() : 0 + times.getMinutes()
+      return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second
+    },
+    handleSearch_activityStamped(val) {
       const _this = this
       console.log(val)
       if (val === null || val === '') {
-        _this.search_activeDate = ''
-        _this.search_activeDateBegin = ''
-        _this.search_activeDateEnd = ''
+        _this.search_activityStamped = ''
+        _this.search_activityStampedStart = ''
+        _this.search_activityStampedEnd = ''
       } else {
-        const search1 = _this.formateTime(val[0])
-        const search2 = _this.formateTime(val[1])
+        var dateStart = new Date(_this.formateTime(val[0]));
+        var dateEnd = new Date(_this.formateTime(val[1]));
+        var search1 = dateStart.getTime();
+        var search2 = dateEnd.getTime();
         console.log(search1)
         console.log(search2)
-        _this.search_activeDateBegin = search1
-        _this.search_activeDateEnd = search2
-        _this.currentPage = 1
+        _this.search_activityStampedStart = search1
+        _this.search_activityStampedEnd = search2
+        _this.currentPage = 1;
+        _this.getActivityData();
       }
     },
+    getActivityData() {
+      let _this = this;
+      request.$get('/activity/getApprovedActivityList', {
+        searchCreatorStuId: _this.search_stuId,
+        activityName: _this.search_activityName,
+        organizationMessage: _this.search_organizationMessage,
+        activityStampedStart: _this.search_activityStampedStart,
+        activityStampedEnd: _this.search_activityStampedEnd,
+        page: _this.currentPage,
+        limit: _this.pageSize,
+        orderRule: ''
+      }, (res) => {
+        console.log(res.data);
+        console.log(_this.userId);
+        let totalPages = res.data.data.totalPages;
+        let activityData = res.data.data.content;
+        _this.activityData = activityData;
+        // _this.finalShow = activityData;
+        _this.activityData_length = totalPages;
+        _this.loading = false;
+      }, _this)
+    },
+    getid(e) {
+      this.activityId = e;
+    },
+    getDownload(e) {
+      this.activityId = e;
+      let _this = this;
+      request.$post('/activityStamp/exportExcel', {
+        activityId: _this.activityId
+      }, (res) => {
+        console.log(res.data);
+        let message = res.data.errorMsg;
+        request.message(_this, message, 'success')
+      }, _this)
+    },
     clearFiles() {
-      this.dialogchapers = false
+      this.fileList = [];
+      this.dialogchapers = false;
+    },
+    submitUpload () {
+      let _this = this
+      // const loading = _this.$loading({
+      //   lock: true,
+      //   text: '操作执行中，请稍后',
+      //   spinner: 'el-icon-loading',
+      //   background: 'rgba(0, 0, 0, 0.7)'
+      // });
+      request.openFullScreen(_this);
+      if (_this.fileList.length === 0) {
+        request.message(_this, '请先选择文件', 'warning');
+        request.closeFullScreen(request.openFullScreen(_this));
+      } else {
+        const isLt10240K = _this.fileList.every(file => file.size / 1024 / 1024 / 1024 < 10240);
+        if (!isLt10240K) {
+          request.message(_this, '请检查，上传文件大小不能超过10MB!', 'error');
+          request.closeFullScreen(request.openFullScreen(_this));
+        } else {
+          var formData = new FormData(); //  用FormData存放上传文件
+          _this.fileList.forEach(file => {
+            formData.append('file', file.raw, file.raw.name);
+          })
+          // 向webapi发起请求，等待后台接收
+          request.$postFileList('/activityStamp/importExcel', formData, 
+          {
+            userId: _this.userId,
+            activityId: _this.activityId
+          }, (res) => {
+            console.log(res.data)
+            let message = res.data.errorMsg
+            setTimeout(() => {
+              request.closeFullScreen(request.openFullScreen(_this));
+              _this.reload();
+              request.message(_this, message, 'success');
+              _this.fileList = [];
+              _this.dialogchapers = false;
+            }, 1000);
+          }, _this);
+          // setTimeout(() => {
+          //   loading.close();
+          // }, 2000);
+        }
+      }
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    //移除
+    handleRemove(file, fileList) {
+      this.fileList = fileList;
+    },
+    beforeRemove(file) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    // 选取文件超过数量提示
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    //监控上传文件列表
+    handleChange(file, fileList) {
+      let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name);
+      if (existFile) {
+        this.$message.error('当前文件已经存在!');
+        fileList.pop();
+      }
+      this.fileList = fileList;
     }
-    // submitUpload() {
-    //   let _this = this
-    //   // const loading = _this.$loading({
-    //   //   lock: true,
-    //   //   text: '操作执行中，请稍后',
-    //   //   spinner: 'el-icon-loading',
-    //   //   background: 'rgba(0, 0, 0, 0.7)'
-    //   // });
-    //   request.openFullScreen(_this);
-    //   if (_this.fileList.length === 0) {
-    //     request.message(_this, '请先选择文件', 'warning');
-    //     request.closeFullScreen(request.openFullScreen(_this));
-    //   } else {
-    //     const isLt10240K = _this.fileList.every(file => file.size / 1024 / 1024 / 1024 < 10240);
-    //     if (!isLt10240K) {
-    //       request.message(_this, '请检查，上传文件大小不能超过10MB!', 'error');
-    //       request.closeFullScreen(request.openFullScreen(_this));
-    //     } else {
-    //       var formData = new FormData(); //  用FormData存放上传文件
-    //       _this.fileList.forEach(file => {
-    //         formData.append('file', file.raw, file.raw.name);
-    //       })
-    //       //向webapi发起请求，等待后台接收
-    //       request.$postFileList('/user/user/import', formData, {},(res) => {
-    //         console.log(res.data.data)
-    //         setTimeout(() => {
-    //           request.closeFullScreen(request.openFullScreen(_this));
-    //           _this.reload();
-    //           request.message(_this, '导入成功!', 'success');
-    //           _this.fileList = [];
-    //           _this.dialogusers = false;
-    //         }, 1000);
-    //       }, _this);
-    //       setTimeout(() => {
-    //         loading.close();
-    //       }, 2000);
-    //     }
-    //   }
-    // },
-    // handlePreview(file) {
-    //   console.log(file);
-    // },
-    // //移除
-    // handleRemove(file, fileList) {
-    //   this.fileList = fileList;
-    // },
-    // beforeRemove(file, fileList) {
-    //   return this.$confirm(`确定移除 ${ file.name }？`);
-    // },
-    // // 选取文件超过数量提示
-    // handleExceed(files, fileList) {
-    //   this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    // },
-    // //监控上传文件列表
-    // handleChange(file, fileList) {
-    //   let existFile = fileList.slice(0, fileList.length - 1).find(f => f.name === file.name);
-    //   if (existFile) {
-    //     this.$message.error('当前文件已经存在!');
-    //     fileList.pop();
-    //   }
-    //   this.fileList = fileList;
-    // },
   }
 }
 </script>

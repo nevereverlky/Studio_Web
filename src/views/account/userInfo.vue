@@ -13,7 +13,7 @@
                   <div class="d-inline-block align-items-center">
                     <nav>
                       <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><router-link tag="a" to="/activityapproval"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
+                        <li class="breadcrumb-item"><router-link tag="a" to="/userinfo"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
                         <li class="breadcrumb-item" aria-current="page">账户模块</li>
                         <li class="breadcrumb-item active" aria-current="page">账户</li>
                       </ol>
@@ -33,24 +33,32 @@
                   <div class="box-body">
                     <ul class="list-group list-group-striped">
                       <li class="list-group-item">
-                        <i class="el-icon-user"/>用户名称
-                        <div class="pull-right">{{ user.userName }}</div>
+                        姓名学号
+                        <div class="pull-right">{{ userInfo.realName }}【{{ userInfo.stuId }}】</div>
                       </li>
                       <li class="list-group-item">
-                        <i class="el-icon-phone"/>手机号码
-                        <div class="pull-right">{{ user.phonenumber }}</div>
+                        性别
+                        <div class="pull-right">{{ userInfo.sex }}</div>
                       </li>
                       <li class="list-group-item">
-                        <i class="el-icon-message"/>用户邮箱
-                        <div class="pull-right">{{ user.email }}</div>
+                        专业年级
+                        <div class="pull-right">{{ userInfo.grade }}{{ userInfo.major }}</div>
                       </li>
                       <li class="list-group-item">
-                        <i class="el-icon-user-solid"/>所属角色
-                        <div class="pull-right">{{ user.roleGroup }}</div>
+                        班级
+                        <div class="pull-right">{{ userInfo.classId }}</div>
                       </li>
                       <li class="list-group-item">
-                        <i class="el-icon-date" />创建日期
-                        <div class="pull-right">{{ user.createTime }}</div>
+                        入学时间
+                        <div class="pull-right">{{ enrollDate | dateFormat}}</div>
+                      </li>
+                      <li class="list-group-item">
+                        辅导员
+                        <div class="pull-right">{{ userInfo.counsellorName }}</div>
+                      </li>
+                      <li class="list-group-item">
+                        联系方式
+                        <div class="pull-right">{{ userInfo.phoneNumber }}</div>
                       </li>
                     </ul>
                   </div>
@@ -67,35 +75,21 @@
 </template>
 
 <script>
-// import userAvatar from "./userAvatar";
-// import userInfo from "./userInfo";
-// import resetPwd from "./resetPwd";
-// import { getUserProfile } from "@/api/system/user";
-
+import request from '../../utils/request'
 export default {
   name: 'UserInfo',
-  // components: { userAvatar, userInfo, resetPwd },
   data() {
     return {
-      user: {
-        userName: '',
-        phonenumber: '',
-        roleGroup: { },
-        createTime: ''
-      }
+      userInfo: {},
+      enrollDate: 0,
     }
   },
   created() {
-    this.getUser()
-  },
-  methods: {
-    // getUser() {
-    //   getUserProfile().then(response => {
-    //     this.user = response.data
-    //     this.roleGroup = response.roleGroup
-    //     this.postGroup = response.postGroup
-    //   })
-    // }
+    let userInfo = request.localStorageGet('userInfo');
+    let enrollDate = parseInt(userInfo.enrollDate)
+    console.log(enrollDate)
+    this.userInfo = userInfo;
+    this.enrollDate = enrollDate;
   }
 }
 </script>

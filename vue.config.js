@@ -50,7 +50,7 @@ module.exports = {
     //   ? './'
     //   : '/' ,
     // 基本路径
-    publicPath: '/',//默认的'/'是绝对路径，如果不确定在根路径，改成相对路径'./'
+    publicPath: './',//默认的'/'是绝对路径，如果不确定在根路径，改成相对路径'./'
     // 构建时的输出目录
     outputDir: 'dist',
     // 放置静态资源的目录
@@ -169,7 +169,7 @@ module.exports = {
              ws: false,
              secure: false, // 如果是https接口，需要配置这个参数
              pathRewrite:{  // 路径重写，
-              '^/api': ''  // 替换target中的请求地址，也就是说以后你在请求http://这个地址的时候直接写成/api即可。
+              '^/api': api  // 替换target中的请求地址，也就是说以后你在请求http://这个地址的时候直接写成/api即可。
              }
           }
        },
