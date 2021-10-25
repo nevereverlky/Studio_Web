@@ -74,7 +74,11 @@ export default {
           console.log('res.data', res.data);
           let message = res.errorMsg;
           let token = res.data.token;
+          let userId = res.data.userId;
+          let userInfo = res.data.userInfo;
           localStorageSet('token', token);
+          localStorageSet('userId', userId);
+          localStorageSet('userInfo', userInfo);
           let routers = []
           getRouters().then((res) => {
             console.log('resrouter', res.data)

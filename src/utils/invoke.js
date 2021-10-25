@@ -17,25 +17,25 @@ export default function request(option) {
 
 		// 配置请求和响应拦截
 		instance.interceptors.request.use((config) => {
-      // 请求头其他信息
-      config.headers['Authorization'] = localStorageGet('token')
-      config.data = qs.stringify(config.data)
-      return config
+		// 请求头其他信息
+		config.headers['Authorization'] = localStorageGet('token')
+		config.data = qs.stringify(config.data)
+		return config
     },
     error => Promise.reject(error))
 
 		instance.interceptors.response.use(response => {
 			return response.data
 		}, err => {
-      console.log(err);
-      if (err && err.response) {
+			console.log(err);
+			if (err && err.response) {
 				switch (err.response.errorCode) {
 					case 400:
-            messageInfo('请求错误', 'error')
+						messageInfo('请求错误', 'error')
 						break
 					case 401:
-            localStorage.removeItem('token')
-            messageInfo('未授权的访问', 'error')
+						localStorage.removeItem('token')
+						messageInfo('未授权的访问', 'error')
 						break
 					default:
 						messageInfo('连接错误', 'error')
