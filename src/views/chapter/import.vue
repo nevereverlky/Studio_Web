@@ -13,7 +13,7 @@
                   <div class="d-inline-block align-items-center">
                     <nav>
                       <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><router-link tag="a" to="/chapter"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
+                        <li class="breadcrumb-item"><router-link tag="a" to="/manage"><i class="fa fa-home" aria-hidden="true"/></router-link></li>
                         <li class="breadcrumb-item" aria-current="page">活动章模块</li>
                         <li class="breadcrumb-item active" aria-current="page">导入章</li>
                       </ol>
@@ -51,13 +51,15 @@
                 </el-row>
 
                  <div class="block" style="margin-top:15px;margin-bottom:40px;float: right">
-                    <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                      :current-page="currentPage"
-                      :page-sizes="[6,12,18]"
-                      :page-size="pageSize"
-                      layout="total, sizes, prev, pager, next, jumper"
-                      :total="activityData_length">
-                    </el-pagination>
+                    <el-pagination
+                    :current-page="currentPage"
+                    :page-sizes="[6,12,18]"
+                    :page-size="pageSize"
+                    :total="activityData_length"
+                    align="center"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"/>
                 </div>
               </div>
 
@@ -127,79 +129,13 @@ export default {
       activityData_length: 0, // 总条目数
       pageSize: 10, // 每页的数据条数
       fileList: [],
-      activityData: [
-        {
-          activityId: '201812011',
-          activityName: '图书馆数字资源培训讲座',
-          type: 'lectureActivity',
-          organizationMessage: '学生社团联合会',
-          location: '图书馆讲堂',
-          applicationStamper: 150,
-          activityStampedStart: 1538969114000,
-          activityStampedEnd: 1538875514000,
-          start: 1570497914000,
-          end: 1538969114000,
-          state: 'FINISHED'
-        },
-        {
-          activityId: '201812011',
-          activityName: '图书馆数字资源培训讲座',
-          type: 'lectureActivity',
-          organizationMessage: '学生社团联合会',
-          location: '图书馆讲堂',
-          applicationStamper: 150,
-          activityStampedStart: 1538969114000,
-          activityStampedEnd: 1538875514000,
-          start: 1570497914000,
-          end: 1538969114000,
-          state: ''
-        },
-        {
-          activityId: '201812011',
-          activityName: '图书馆数字资源培训讲座',
-          type: 'lectureActivity',
-          organizationMessage: '学生社团联合会',
-          location: '图书馆讲堂',
-          applicationStamper: 150,
-          activityStampedStart: 1538969114000,
-          activityStampedEnd: 1538875514000,
-          start: 1570497914000,
-          end: 1538969114000,
-          state: ''
-        },
-        {
-          activityId: '201812011',
-          activityName: '图书馆数字资源培训讲座',
-          type: 'lectureActivity',
-          organizationMessage: '学生社团联合会',
-          location: '图书馆讲堂',
-          applicationStamper: 150,
-          activityStampedStart: 1538969114000,
-          activityStampedEnd: 1538875514000,
-          start: 1570497914000,
-          end: 1538969114000,
-          state: ''
-        },
-        {
-          activityId: '201812011',
-          activityName: '图书馆数字资源培训讲座',
-          type: 'lectureActivity',
-          organizationMessage: '学生社团联合会',
-          location: '图书馆讲堂',
-          applicationStamper: 150,
-          activityStampedStart: 1538969114000,
-          activityStampedEnd: 1538875514000,
-          start: 1570497914000,
-          end: 1538969114000,
-          state: ''
-        }
-      ]
+      activityData: []
     }
   },
   created () {
     let userId = request.localStorageGet('userId');
     this.userId = userId;
-    // this.getActivityData();
+    this.getActivityData();
   },
   methods: {
     // 每页条数改变时触发 选择一页显示多少行
@@ -224,6 +160,7 @@ export default {
         orderRule: ''
       }, (res) => {
         console.log(res.data);
+        console.log(_this.userId);
         let totalPages = res.data.data.totalPages;
         let activityData = res.data.data.content;
         _this.activityData = activityData;
