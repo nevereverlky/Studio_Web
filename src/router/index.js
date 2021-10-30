@@ -14,8 +14,13 @@ const routes = [
   {
     path: '/',
     component: () => import('@/views/layout'),
-    redirect: '/overview',
+    redirect: '/welcome',
     children: [
+      {
+        path: '/welcome',
+        name: 'welcome',
+        component: () => import('@/views/welcome/welcome')
+      },
       {
         path: '/overview',
         authname: '预警与总览',

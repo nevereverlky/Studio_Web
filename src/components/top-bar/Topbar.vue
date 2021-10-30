@@ -72,7 +72,10 @@
             <!-- User Account-->
             <li class="dropdown user user-menu">
               <a href="#" class="waves-effect waves-light rounded dropdown-toggle d-flex align-items-center" data-toggle="dropdown" title="User">
-                <div class="text-right d-none d-lg-block"><p class="font-weight-600 mb-0">团委</p><small>苏前溢</small></div>
+                <div class="text-right d-none d-lg-block">
+                  <p class="font-weight-600 mb-0">{{userInfo.realName}}</p>
+                  <!-- <small>活动负责人</small> -->
+                </div>
                 <img src="./../../assets/images/logo.png" alt="">
               </a>
               <ul class="dropdown-menu animated flipInX">
@@ -80,7 +83,7 @@
                   <router-link tag="a" to="/userinfo" class="dropdown-item"><i class="fa fa fa-user text-muted mr-2"/>账户</router-link>
                   <router-link tag="a" to="/editpwd" class="dropdown-item"><i class="fa fa-unlock-alt text-muted mr-2"/>修改密码</router-link>
                   <div class="dropdown-divider"/>
-                  <a class="dropdown-item" @click="tologin"><i class="fa fa-lock text-muted mr-2"/>注销</a>
+                  <a class="dropdown-item" style="cursor:pointer" @click="tologin"><i class="fa fa-lock text-muted mr-2"/>注销</a>
                 </li>
               </ul>
             </li>
@@ -99,24 +102,33 @@
 </template>
 
 <script>
+import request from '../../utils/request'
 export default {
   name: 'Topbar',
   data() {
     return {
+       userInfo: {}
     }
+  },
+  created() {
+    let userInfo = request.localStorageGet('userInfo');
+    this.userInfo = userInfo;
   },
   methods: {
     tologin() {
       const _this = this
-      // request.$post('/user/logout', {}, (res) => {
-      //   console.log(res.data);
-      //   request.localStorageSet('token', null);
-      setTimeout(function() {
-        _this.$router.push('/signin')
-        // location.reload();
-      }, 3000)
-      // let message = res.data.message;
-      // }, _this)
+      request.$delete('/user/token', {}, (res) => {
+        console.log(res.data);
+        request.localStorageSet('token', null);
+        request.localStorageSet('userId', null);
+        request.localStorageSet('routers', null);
+        request.localStorageSet('userInfo', null);
+        setTimeout(function() {
+          _this.$router.push('/login')
+        }, 3000)
+        let message = res.data.errorMsg;
+        request.message(_this, message, 'success')
+      }, _this)
     }
   }
 }

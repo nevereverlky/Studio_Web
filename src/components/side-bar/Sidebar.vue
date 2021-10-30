@@ -31,7 +31,7 @@
               active-text-color="#1bc5bd"
               @open="handleOpen"
               @close="handleClose">
-              <el-menu-item index="/overview">
+              <el-menu-item index="/overview" v-if="checkModulePermission('/overview')">
                 <i class="fa-icon fa fa-desktop"/>
                 <span>预警与总览</span>
               </el-menu-item>

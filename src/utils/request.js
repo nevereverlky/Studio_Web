@@ -41,6 +41,44 @@ export default {
       console.log(error)
     })
   },
+  $delete(url, params, success, that) {
+    axios.delete(url,
+      {
+        params: params,
+        headers: {
+          'Authorization': this.localStorageGet('token')
+        }
+      }
+    ).then((res) => {
+      if (res.data.errorCode === '200') {
+        success(res)
+      } else {
+        this.todoError(res, that)
+      }
+    }).catch(function(error) {
+      console.log(error)
+    })
+  },
+  $put(url, params, success, that) {
+    axios.put(url,
+      qs.stringify(
+        params
+      ),
+      {
+        headers: {
+          'Authorization': this.localStorageGet('token')
+        }
+      }
+    ).then((res) => {
+      if (res.data.errorCode === '200') {
+        success(res)
+      } else {
+        this.todoError(res, that)
+      }
+    }).catch(function(error) {
+      console.log(error)
+    })
+  },
   $get(url, params, success, that) {
     axios.get(url,
       {
@@ -81,7 +119,7 @@ export default {
     if (res.data.errorCode === '401') {
       localStorage.removeItem('token')
     } else {
-      this.message(that, res.data.message, 'error')
+      this.message(that, res.data.errorMsg, 'error')
       this.closeFullScreen(this.openFullScreen(that))
     }
   },
@@ -95,9 +133,9 @@ export default {
   openFullScreen(that) {
     const loading = that.$loading({
       lock: true,
-      text: '操作执行中，请稍后',
-      spinner: 'el-icon-loading',
-      background: 'rgba(0, 0, 0, 0.7)'
+      // text: '操作执行中，请稍后',
+      // spinner: 'el-icon-loading',
+      // background: 'rgba(0, 0, 0, 0.7)'
     })
     return loading
   },
