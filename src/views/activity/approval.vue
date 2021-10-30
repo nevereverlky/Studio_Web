@@ -45,7 +45,8 @@
 
                             <!--finalShow.slice((currentPage-1)*pageSize,currentPage*pageSize)-->
                             <el-table
-                              :data="activeData"
+                              :data="canceledList"
+                              v-loading="canceledLoading"
                               :header-cell-style="{color: 'black', fontSize: '13px'}"
                               style="width: 100%"
                               cell-style="font-size: 13px">
@@ -87,48 +88,56 @@
                                   prop="account"
                                   width="100">
                                   <template slot-scope="scope">
-                                    {{ scope.row.account }}
+                                    {{ scope.row.creatorId }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
                                   label="活动名称"
-                                  prop="activename">
+                                  prop="activityName">
                                   <template slot-scope="scope">
-                                    {{ scope.row.activename }}
+                                    {{ scope.row.activityName }}
                                     <span class="badge badge-dark" style="margin-left: 5px">{{ scope.row.type }}</span>
                                   </template>
                                 </el-table-column>
                                 <el-table-column
                                   label="举办单位"
-                                  prop="organization"
+                                  prop="organizationMessage"
                                   width="140">
                                   <template slot-scope="scope">
-                                    {{ scope.row.organization }}
+                                    {{ scope.row.organizationMessage }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
                                   label="活动地点"
-                                  prop="place"
+                                  prop="location"
                                   width="100">
                                   <template slot-scope="scope">
-                                    {{ scope.row.place }}
+                                    {{ scope.row.location }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
-                                  label="扫章时间"
-                                  prop="time"
+                                  label="扫章开始时间"
+                                  prop="activityStampedStart"
                                   width="180">
                                   <template slot-scope="scope">
-                                    {{ scope.row.time }}
+                                    {{ parseT(scope.row.activityStampedStart) }}
+                                  </template>
+                                </el-table-column>
+                                <el-table-column
+                                  label="扫章结束时间"
+                                  prop="activityStampedEnd"
+                                  width="180">
+                                  <template slot-scope="scope">
+                                    {{ parseT(scope.row.activityStampedEnd) }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
                                   label="申请章数"
-                                  prop="action"
+                                  prop="applicationStamper"
                                   width="100">
                                   <!-- eslint-disable-next-line -->
                                   <template slot-scope="scope">
-                                    {{ scope.row.requestnum }}
+                                    {{ scope.row.applicationStamper }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
@@ -162,7 +171,8 @@
                           <div class="col-md-12">
                             <!--finalShow.slice((currentPage-1)*pageSize,currentPage*pageSize)-->
                             <el-table
-                              :data="activeData"
+                              :data="approvedList"
+                              v-loading="approvedLoading"
                               :header-cell-style="{color: 'black', fontSize: '13px'}"
                               style="width: 100%"
                               cell-style="font-size: 13px">
@@ -171,25 +181,25 @@
                                 <template slot="header" slot-scope="scope">
                                   <div style="display: flex;flex-direction: row;justify-content: space-between">
                                     <el-input
-                                      v-model="search_account"
+                                      v-model="done_search_account"
                                       scope
                                       style="width: 15%"
                                       size="mini"
                                       placeholder="按照负责人学号搜索"/>
                                     <el-input
-                                      v-model="search_activename"
+                                      v-model="done_search_activename"
                                       scope
                                       style="width: 15%"
                                       size="mini"
                                       placeholder="按照活动名称搜索"/>
                                     <el-input
-                                      v-model="search_organization"
+                                      v-model="done_search_organization"
                                       scope
                                       style="width: 20%"
                                       size="mini"
                                       placeholder="按照举办单位搜索"/>
                                     <el-date-picker
-                                      v-model="search_activeDate"
+                                      v-model="done_search_activeDate"
                                       :default-time="['12:00:00']"
                                       style="width: 27%"
                                       size="mini"
@@ -204,14 +214,14 @@
                                   prop="account"
                                   width="100">
                                   <template slot-scope="scope">
-                                    {{ scope.row.account }}
+                                    {{ scope.row.creatorId }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
                                   label="活动名称"
                                   prop="activename">
                                   <template slot-scope="scope">
-                                    {{ scope.row.activename }}
+                                    {{ scope.row.activityName }}
                                     <span class="badge badge-dark" style="margin-left: 5px">{{ scope.row.type }}</span>
                                   </template>
                                 </el-table-column>
@@ -220,7 +230,7 @@
                                   prop="organization"
                                   width="140">
                                   <template slot-scope="scope">
-                                    {{ scope.row.organization }}
+                                    {{ scope.row.organizationMessage }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
@@ -228,15 +238,23 @@
                                   prop="place"
                                   width="100">
                                   <template slot-scope="scope">
-                                    {{ scope.row.place }}
+                                    {{ scope.row.location }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
-                                  label="扫章时间"
+                                  label="扫章开始时间"
                                   prop="time"
                                   width="180">
                                   <template slot-scope="scope">
-                                    {{ scope.row.time }}
+                                    {{ parseT(scope.row.activityStampedStart) }}
+                                  </template>
+                                </el-table-column>
+                                <el-table-column
+                                  label="扫章结束时间"
+                                  prop="time"
+                                  width="180">
+                                  <template slot-scope="scope">
+                                    {{ parseT(scope.row.activityStampedEnd) }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
@@ -245,7 +263,7 @@
                                   width="100">
                                   <!-- eslint-disable-next-line -->
                                   <template slot-scope="scope">
-                                    {{ scope.row.requestnum }}
+                                    {{ scope.row.applicationStamper }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
@@ -291,7 +309,14 @@
 </template>
 
 <script>
-import request from '../../utils/request'
+import request from '../../utils/request';
+import {  queryApprovedListAll,
+          queryCanceledAll, 
+          queryActivityDetail,
+          cancelActivity } from '@/api/activity';
+import { parseTime } from '@/utils/util'
+import { debounce } from 'lodash'
+
 export default {
   name: 'Approval',
   data() {
@@ -300,6 +325,12 @@ export default {
       search_activename: '',
       search_organization: '',
       search_activeDate: '',
+
+      done_search_account: '',
+      done_search_activename: '',
+      done_search_organization: '',
+      done_search_activeDate: '',
+
       search_activeDateBegin: '',
       search_activeDateEnd: '',
       currentPage: 1, // 当前页码
@@ -328,25 +359,88 @@ export default {
           requestnum: 512,
           pass: false
         }
-      ]
+      ],
+      approvedList: [],
+      canceledList: [],
+      approvedLoading: false,
+      canceledLoading: false,
     }
   },
   watch: {
     // watch监视input输入值的变化,只要是watch变化了 search()就会被调用
     search_account(newVal) {
-      this.handleSearch_account(newVal)
+      this.debounce_handleSearch_account(newVal)
     },
     search_activename(newVal) {
-      this.handleSearch_activename(newVal)
+      this.debounce_handleSearch_activename(newVal)
     },
     search_organization(newVal) {
-      this.handleSearch_organization(newVal)
+      this.debounce_handleSearch_organization(newVal)
     },
     search_activeDate(newVal) {
-      this.handleSearch_activeDate(newVal)
+      this.debounce_handleSearch_activeDate(newVal)
+    },
+    done_search_account(newVal) {
+      this.done_debounce_handleSearch_account(newVal)
+    },
+    done_search_activename(newVal) {
+      this.done_debounce_handleSearch_activename(newVal)
+    },
+    done_search_organization(newVal) {
+      this.done_debounce_handleSearch_organization(newVal)
+    },
+    done_search_activeDate(newVal) {
+      this.done_debounce_handleSearch_activeDate(newVal)
     }
   },
+  created() {
+    this.queryApprovedListAll();
+    this.queryCanceledAll();
+    // this.queryActivityDetail();
+  },
   methods: {
+    // 时间戳解析
+    parseT(t) {
+      return parseTime(t)
+    },
+    // 获取已审批通过的活动列表
+    queryApprovedListAll(data) {
+      this.approvedLoading = true,
+      console.log(111)
+      queryApprovedListAll(data).then((res) => {
+        this.approvedList = res.data.content;
+        console.log('queryApprovedListAll', res)
+      }).finally(() => {
+        this.approvedLoading = false
+      })
+    },
+    // 获取未审批通过的活动列表
+    queryCanceledAll(data) {
+      this.canceledLoading = true,
+      queryCanceledAll(data).then((res) => {
+        this.canceledList = res.data.content;
+        console.log('queryCanceledAll', res)
+      }).finally(() => {
+        this.canceledLoading = false
+      })
+    },
+    // 获取审批详情
+    queryActivityDetail() {
+      queryActivityDetail().then((res) => {
+        console.log('queryActivityDetail', res)
+      })
+    },
+    // 审批通过
+    publishActivity() {
+      
+    },
+    // 审批驳回
+    cancelActivity() {
+      cancelActivity().then((res) => {
+        console.log('cancelActivity', res)
+      })
+    },
+
     // 每页条数改变时触发 选择一页显示多少行
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
@@ -367,38 +461,68 @@ export default {
       this.search_activeDateEnd = ''
       request.message(this, '重置成功', 'success')
     },
-    handleSearch_account(val) {
-      const search = val
-      this.search_account = search
-      this.currentPage = 1
-    },
-    handleSearch_activename(val) {
-      const search = val
-      this.search_activename = search
-      this.currentPage = 1
-    },
-    handleSearch_organization(val) {
-      const search = val
-      this.search_organization = search
-      this.currentPage = 1
-    },
-    handleSearch_activeDate(val) {
-      const _this = this
-      console.log(val)
+
+    debounce_handleSearch_account: debounce(function (val) {
+      this.queryCanceledAll({searchCreatorStuId: val})
+    }, 1000) ,
+    debounce_handleSearch_activename: debounce(function (val) {
+      this.queryCanceledAll({activeName: val})
+    }, 1000),
+    debounce_handleSearch_organization: debounce( function (val) {
+      this.queryCanceledAll({organizeMessage: val})
+    }, 1000),
+    debounce_handleSearch_activeDate: debounce( function (val) {
+      // this.queryApprovedListAll({organizeMessage: val})
+      console.log('curSearchData', val)
       if (val === null || val === '') {
-        _this.search_activeDate = ''
-        _this.search_activeDateBegin = ''
-        _this.search_activeDateEnd = ''
+        this.search_activeDate = ''
+        this.search_activeDateBegin = ''
+        this.search_activeDateEnd = ''
       } else {
-        const search1 = _this.formateTime(val[0])
-        const search2 = _this.formateTime(val[1])
-        console.log(search1)
-        console.log(search2)
-        _this.search_activeDateBegin = search1
-        _this.search_activeDateEnd = search2
-        _this.currentPage = 1
+        this.search_activeDateBegin = this.formateTime(val[0])
+        this.search_activeDateEnd = this.formateTime(val[1])
+        this.currentPage = 1
       }
-    },
+    }, 1000),
+    done_debounce_handleSearch_account: debounce(function (val) {
+      this.queryApprovedListAll({creatorId: val})
+    }, 1000) ,
+    done_debounce_handleSearch_activename: debounce(function (val) {
+      this.queryApprovedListAll({activeName: val})
+    }, 1000),
+    done_debounce_handleSearch_organization: debounce( function (val) {
+      this.queryApprovedListAll({organizeMessage: val})
+    }, 1000),
+    done_debounce_handleSearch_activeDate: debounce( function (val) {
+      // this.queryApprovedListAll({organizeMessage: val})
+      console.log('curSearchData', val)
+      if (val === null || val === '') {
+        this.search_activeDate = ''
+        this.search_activeDateBegin = ''
+        this.search_activeDateEnd = ''
+      } else {
+        this.search_activeDateBegin = this.formateTime(val[0])
+        this.search_activeDateEnd = this.formateTime(val[1])
+        this.currentPage = 1
+      }
+    }, 1000),
+    // handleSearch_activeDate(val) {
+    //   const _this = this
+    //   console.log(val)
+    //   if (val === null || val === '') {
+    //     _this.search_activeDate = ''
+    //     _this.search_activeDateBegin = ''
+    //     _this.search_activeDateEnd = ''
+    //   } else {
+    //     const search1 = _this.formateTime(val[0])
+    //     const search2 = _this.formateTime(val[1])
+    //     console.log(search1)
+    //     console.log(search2)
+    //     _this.search_activeDateBegin = search1
+    //     _this.search_activeDateEnd = search2
+    //     _this.currentPage = 1
+    //   }
+    // },
     toApprove(id) {
       this.$router.push({
         path: '/approvedetail',

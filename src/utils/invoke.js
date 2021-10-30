@@ -30,7 +30,6 @@ export default function request(option) {
 			const code = response.status
 			const headers = response.headers
 			const message = response.message || ''
-			console.log('11', headers['content-type'].indexOf('application/vnd.ms-excel'))
 			if(code !== 200){
 				// 由于此处无法引入element-ui,暂时打印处理
 				console.log('error', message)

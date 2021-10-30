@@ -50,12 +50,12 @@
                     <div class="tab-content">
                       <div id="navpills2-1" class="tab-pane active">
 
-                        <div v-if="activityData.length !== 0">
+                        <div v-if="approvedList.length !== 0">
                           <div class="row">
                             <div class="col-md-9">
                               <el-timeline>
                                   <el-timeline-item 
-                                  v-for="(item,index) in activityData"
+                                  v-for="(item,index) in approvedList"
                                   :key="index"
                                   :timestamp="item.timestamp" 
                                   placement="top"
@@ -93,12 +93,12 @@
                           </div>
 
                           <div class="block" style="margin-top:15px;float: right">
-                            <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                            <el-pagination align='center' @size-change="done_handleSizeChange" @current-change="done_handleCurrentChange"
                                           :current-page="currentPage"
                                           :page-sizes="[20,50,80]"
                                           :page-size="pageSize"
                                           layout="total, sizes, prev, pager, next, jumper"
-                                          :total="activityData_length">
+                                          :total="approvedList_length">
                             </el-pagination>
                            </div>
                         </div>
@@ -115,12 +115,12 @@
 
                       </div>
                       <div id="navpills2-2" class="tab-pane">
-                        <div v-if="activityData.length !== 0">
+                        <div v-if="canceledList.length !== 0">
                           <div class="row">
                             <div class="col-md-9">
                               <el-timeline>
                                   <el-timeline-item 
-                                  v-for="(item,index) in activityData"
+                                  v-for="(item,index) in canceledList"
                                   :key="index"
                                   :timestamp="item.timestamp" 
                                   placement="top"
@@ -140,8 +140,8 @@
                                           <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                           <span class="badge badge-primary">{{item.applicationStamper}}</span>
                                           </p>
-                                          <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityStampedStart}}--{{item.activityStampedEnd}}</p>
-                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityStampedStart}}--{{item.activityStampedEnd}}</p>
+                                          <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseTime(item.activityStampedStart)}}--{{parseTime(item.activityStampedEnd)}}</p>
+                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseTime(item.activityStampedStart)}}--{{parseTime(item.activityStampedEnd)}}</p>
                                         </div>
                                       </div>
                                       <div class="box-footer text-right p-0">
@@ -171,7 +171,7 @@
                                           :page-sizes="[20,50,80]"
                                           :page-size="pageSize"
                                           layout="total, sizes, prev, pager, next, jumper"
-                                          :total="activityData_length">
+                                          :total="canceledList_length">
                             </el-pagination>
                           </div>
                         </div>
@@ -208,8 +208,7 @@
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="举办单位">
                   <el-select v-model="form.organizationMessage" placeholder="请选择活动主办方">
-                    <el-option label="计算机系学生会" value="shanghai"/>
-                    <el-option label="β-house工作室" value="beijing"/>
+                    <el-option v-for="(item,index) in organizersList" :key="index" :label="item" :value="item"/>
                   </el-select>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="活动地点">
@@ -217,81 +216,13 @@
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="活动类型">
                   <el-select v-model="form.activityType" placeholder="请选择活动类型">
-                    <el-option label="校园活动" value="shanghai"/>
-                    <el-option label="志愿活动" value="beijing"/>
-                    <el-option label="实践活动" value="beijing"/>
-                    <el-option label="讲座活动" value="beijing"/>
-                  </el-select>
-                </el-form-item>
-              </div>
-              <div style="flex:1">
-                <el-form-item :label-width="formLabelWidth" label="活动时间">
-                  <el-date-picker
-                    v-model="form.timevalue"
-                    type="datetimerange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"/>
-                </el-form-item>
-                <el-form-item :label-width="formLabelWidth" label="扫章时间">
-                  <el-date-picker
-                    v-model="form.timevalue"
-                    type="datetimerange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"/>
-                </el-form-item>
-                <el-form-item :label-width="formLabelWidth" label="申请章数">
-                  <el-input-number v-model="form.applicationStamper" :min="1" :max="1000" size="small" label="描述文字" @change="handleChange"/>
-                </el-form-item>
-                <el-form-item :label-width="formLabelWidth" label="钉钉截图">
-                  <el-upload
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    :before-remove="beforeRemove"
-                    :limit="1"
-                    :on-exceed="handleExceed"
-                    :file-list="fileList"
-                    class="upload-demo"
-                    action=""
-                    multiple>
-                    <el-button size="small" type="primary" plain>点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                  </el-upload>
-                </el-form-item>
-              </div>
-            </div>
-          </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button size="small" @click="addFormVisible = false">取 消</el-button>
-            <el-button type="primary" size="small" @click="addActivity">确认创建</el-button>
-          </div>
-
-        </el-dialog>
-
-        <el-dialog :visible.sync="editFormVisible" title="修改申请" width="60%">
-
-          <el-form :model="form" size="small">
-            <div style="display:flex">
-              <div style="flex:1">
-                <el-form-item :label-width="formLabelWidth" label="活动名称">
-                  <el-input v-model="form.activityName" autocomplete="off"/>
-                </el-form-item>
-                <el-form-item :label-width="formLabelWidth" label="举办单位">
-                  <el-select v-model="form.organizationMessage" placeholder="请选择活动主办方">
-                    <el-option label="计算机系学生会" value="shanghai"/>
-                    <el-option label="β-house工作室" value="beijing"/>
-                  </el-select>
-                </el-form-item>
-                <el-form-item :label-width="formLabelWidth" label="活动地点">
-                  <el-input v-model="form.location" autocomplete="off"/>
-                </el-form-item>
-                <el-form-item :label-width="formLabelWidth" label="活动类型">
-                  <el-select v-model="form.activityType" placeholder="请选择活动类型">
-                    <el-option label="校园活动" value="shanghai"/>
-                    <el-option label="志愿活动" value="beijing"/>
-                    <el-option label="实践活动" value="beijing"/>
-                    <el-option label="讲座活动" value="beijing"/>
+                    <el-option label="校园活动" value="schoolActivity"/>
+                    <el-option label="志愿活动" value="volunteerActivity"/>
+                    <el-option label="实践活动" value="practiceActivity"/>
+                    <el-option label="讲座活动" value="lectureActivity"/>
+                    <el-option label="义工" value="volunteerWork"/>
+                    <el-option label="党员活动" value="partyActivity"/>
+                    <el-option label="党员时间" value="partyTimeActivity"/>
                   </el-select>
                 </el-form-item>
               </div>
@@ -317,7 +248,78 @@
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="钉钉截图">
                   <el-upload
-                    :on-preview="handlePreview"
+                    name="file"
+                    :on-success="uploadSuccess"
+                    :on-remove="handleRemove"
+                    :before-remove="beforeRemove"
+                    :limit="1"
+                    :on-exceed="handleExceed"
+                    :file-list="fileList"
+                    class="upload-demo"
+                    :action="`${baseApi}/common/aliyun/ding`">
+                    <el-button size="small" type="primary" plain>点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                  </el-upload>
+                </el-form-item>
+              </div>
+            </div>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button size="small" @click="addFormVisible = false">取 消</el-button>
+            <el-button type="primary" size="small" @click="addActivity">确认创建</el-button>
+          </div>
+
+        </el-dialog>
+
+        <el-dialog :visible.sync="editFormVisible" title="修改申请" width="60%">
+
+          <el-form :model="form" size="small">
+            <div style="display:flex">
+              <div style="flex:1">
+                <el-form-item :label-width="formLabelWidth" label="活动名称">
+                  <el-input v-model="form.activityName" autocomplete="off"/>
+                </el-form-item>
+                <el-form-item :label-width="formLabelWidth" label="举办单位">
+                  <el-select v-model="form.organizationMessage" placeholder="请选择活动主办方">
+                    <el-option label="计算机系学生会" value="计算机系学生会"/>
+                    <el-option label="β-house工作室" value="β-house工作室"/>
+                  </el-select>
+                </el-form-item>
+                <el-form-item :label-width="formLabelWidth" label="活动地点">
+                  <el-input v-model="form.location" autocomplete="off"/>
+                </el-form-item>
+                <el-form-item :label-width="formLabelWidth" label="活动类型">
+                  <el-select v-model="form.activityType" placeholder="请选择活动类型">
+                    <el-option label="校园活动" value="校园活动"/>
+                    <el-option label="志愿活动" value="志愿活动"/>
+                    <el-option label="实践活动" value="实践活动"/>
+                    <el-option label="讲座活动" value="讲座活动"/>
+                  </el-select>
+                </el-form-item>
+              </div>
+              <div style="flex:1">
+                <el-form-item :label-width="formLabelWidth" label="活动时间">
+                  <el-date-picker
+                    v-model="form.activityTime"
+                    type="datetimerange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"/>
+                </el-form-item>
+                <el-form-item :label-width="formLabelWidth" label="扫章时间">
+                  <el-date-picker
+                    v-model="form.stampedTime"
+                    type="datetimerange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"/>
+                </el-form-item>
+                <el-form-item :label-width="formLabelWidth" label="申请章数">
+                  <el-input-number v-model="form.applicationStamper" :min="1" :max="1000" size="small" label="描述文字" @change="handleChange"/>
+                </el-form-item>
+                <el-form-item :label-width="formLabelWidth" label="钉钉截图">
+                  <el-upload
+                    :on-success="uploadSuccess"
                     :on-remove="handleRemove"
                     :before-remove="beforeRemove"
                     :limit="1"
@@ -346,7 +348,13 @@
 </template>
 
 <script>
-import request from '../../utils/request'
+// import request from '../../utils/request'
+import { localStorageGet, parseTime } from '@/utils/util'
+import { getActivityOrganizers,
+        createActivity,
+        queryApprovedListByUserID,
+        queryCanceledListByUserID, } from '@/api/activity'
+
 export default {
   name: 'Inquiry',
   data() {
@@ -394,10 +402,7 @@ export default {
       activityStatus: '', //活动状态（'PASS'/'FAIL'）
       addFormVisible: false,
       editFormVisible: false,
-      currentPage: 1, // 当前页码
-      total: 20, // 总条数
-      activityData_length: 0, // 总条目数
-      pageSize: 10, // 每页的数据条数
+      
       form: {
         activityName: '',
         organizationMessage: '',
@@ -407,80 +412,182 @@ export default {
         activityStampedEnd: '',
         activityStartTime: '',
         activityEndTime: '',
-        activityTime: [new Date(), new Date()],
-        stampedTime: [new Date(), new Date()],
+        activityTime: [],
+        stampedTime: [],
         applicationStamper: '',
-        fileList: []
-      }
+        pictureUrl: 'www.baidu.com',
+        // fileList: []
+      },
+      organizersList: [],
+      approvedList: [],
+      canceledList: [],
+      currentPage: 1, // 当前页码
+      total: 20, // 总条数
+      approvedList_length: 0, // 总条目数
+      canceledList_length: 0, // 总条目数
+      pageSize: 10, // 每页的数据条数
     }
   },
   created () {
-    let userId = request.localStorageGet('userId');
-    this.userId = userId;
-    // this.getActivityData();
+    this.userId = localStorageGet('userId');
+    this.getActivityOrganizersList();
+    this.getApprovedActivityData();
+    this.getCanceledActivityData();
+  },
+  mounted() {
+
+  },
+  computed: {
+    baseApi () {
+      return process.env.VUE_APP_BASE_API
+    },
   },
   methods: {
-      // 每页条数改变时触发 选择一页显示多少行
+    // 时间戳解析
+    parseT(t) {
+      return parseTime(t)
+    },
+    getActivityOrganizersList() {
+      getActivityOrganizers({userId: this.userId}).then((res) => {
+        console.log('org', res)
+        this.organizersList = res.data
+      })
+    },
+    // 每页条数改变时触发 选择一页显示多少行
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`);
       this.currentPage = 1;
       this.pageSize = val;
-      this.getActivityData();
+      this.getCanceledActivityData();
     },
     // 当前页改变时触发 跳转其他页
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
-      this.getActivityData();
+      this.getCanceledActivityData();
+    },
+    // 每页条数改变时触发 选择一页显示多少行
+    done_handleSizeChange (val) {
+      console.log(`每页 ${val} 条`);
+      this.currentPage = 1;
+      this.pageSize = val;
+      this.getApprovedActivityData();
+    },
+    // 当前页改变时触发 跳转其他页
+    done_handleCurrentChange (val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.getApprovedActivityData();
     },
     getstatus(e) {
       this.activityStatus = e;
+      if(this.activityStatus === 'FAIL') {
+        this.getCanceledActivityData()
+      }else {
+        this.getApprovedActivityData()
+      }
       this.getActivityData();
     },
-    getActivityData() {
-      let _this = this
-      request.$get('', {
-        // userId: _this.userId,
-        // page: _this.currentPage,
-        // limit: _this.pageSize,
-        // orderRule: 'DESC'
-      }, (res) => {
-        console.log(res.data);
-        // let totalPages = res.data.data.totalPages;
-        // let activityData = res.data.data.content;
-        // _this.activityData = activityData;
-        // // _this.finalShow = activityData;
-        // _this.activityData_length = totalPages;
-      }, _this)
+    // 获取活动列表
+    getCanceledActivityData() {
+      queryCanceledListByUserID({userId: this.userId}).then((res) => {
+        console.log('queryCanceledListByUserID', res)
+        res.data.data.content ? this.canceledList = res.data.data.content : null;
+        res.data.data.totalPages ? this.canceledList_length = res.data.data.totalPages : null;
+      })
+      
+      // let _this = this
+      // request.$get('', {
+      //   userId: _this.userId,
+      //   page: _this.currentPage,
+      //   limit: _this.pageSize,
+      //   orderRule: 'DESC'
+      // }, (res) => {
+      //   console.log(res.data);
+      //   let totalPages = res.data.data.totalPages;
+      //   let activityData = res.data.data.content;
+      //   _this.activityData = activityData;
+      //   _this.finalShow = activityData;
+      //   _this.activityData_length = totalPages;
+      // }, _this)
     },
+    // 获取活动列表
+    getApprovedActivityData() {
+      queryApprovedListByUserID({userId: this.userId}).then((res) => {
+        console.log('queryCanceledListByUserID', res)
+        res.data.data.content ? this.approvedList = res.data.data.content : null;
+        res.data.data.totalPages ? this.approvedList_length = res.data.data.totalPages : null;
+      })
+      
+      // let _this = this
+      // request.$get('', {
+      //   userId: _this.userId,
+      //   page: _this.currentPage,
+      //   limit: _this.pageSize,
+      //   orderRule: 'DESC'
+      // }, (res) => {
+      //   console.log(res.data);
+      //   let totalPages = res.data.data.totalPages;
+      //   let activityData = res.data.data.content;
+      //   _this.activityData = activityData;
+      //   _this.finalShow = activityData;
+      //   _this.activityData_length = totalPages;
+      // }, _this)
+    },
+    // addActivity() {
+    //   let _this = this
+    //   request.$post('/activity/add', {
+    //     location: _this.form.location,
+    //     activityName: _this.form.activityName,
+    //     activityType: _this.form.activityType,
+    //     organizationMessage: _this.form.organizationMessage,
+    //     userId: _this.userId,
+    //     activityStampedEnd: _this.form.activityStampedEnd,
+    //     activityStampedStart: _this.form.activityStampedStart,
+    //     activityStartTime: _this.form.activityStartTime,
+    //     activityEndTime: _this.form.activityEndTime,
+    //     applicationStamper: _this.form.applicationStamper
+    //   }, (res) => {
+    //     console.log(res.data);
+    //     _this.addFormVisible = false;
+    //     setTimeout(function () {
+    //       _this.getActivityData();
+    //       // _this.reload();
+    //       request.message(_this, '活动创建成功', 'success');
+    //     }, 1000)
+    //   }, _this)
+    // },
+
+    
+    // 创建活动申请
     addActivity() {
-      let _this = this
-      request.$post('/activity/add', {
-        location: _this.form.location,
-        activityName: _this.form.activityName,
-        activityType: _this.form.activityType,
-        organizationMessage: _this.form.organizationMessage,
-        userId: _this.userId,
-        activityStampedEnd: _this.form.activityStampedEnd,
-        activityStampedStart: _this.form.activityStampedStart,
-        activityStartTime: _this.form.activityStartTime,
-        activityEndTime: _this.form.activityEndTime,
-        applicationStamper: _this.form.applicationStamper
-      }, (res) => {
-        console.log(res.data);
-        _this.addFormVisible = false;
-        setTimeout(function () {
-          _this.getActivityData();
-          // _this.reload();
-          request.message(_this, '活动创建成功', 'success');
-        }, 1000)
-      }, _this)
+      console.log('pic', this.form.pictureUrl)
+      if(!this.form.pictureUrl) {
+        this.$message.warning(`图片未上传！`)
+        return;
+      }
+      this.form.activityStartTime = new Date(this.form.activityTime[0]).getTime()/1000;
+      this.form.activityEndTime = new Date(this.form.activityTime[1]).getTime()/1000
+      this.form.activityStampedStart = new Date(this.form.stampedTime[0]).getTime()/1000
+      this.form.activityStampedEnd = new Date(this.form.stampedTime[1]).getTime()/1000
+      const params = this.form
+      params.userId = this.userId
+      delete params.stampedTime
+      delete params.activityTime
+      console.log('createActivity', params);
+      createActivity(params).then((res) => {
+        console.log('createActivity', res)
+        this.$message.success(`活动创建成功！`)
+        this.addFormVisible = false;
+      })
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList)
+      this.form.pictureUrl = null
+      console.log('handleRemove', file, fileList)
     },
-    handlePreview(file) {
-      console.log(file)
+    uploadSuccess(file) {
+      this.form.pictureUrl = file.data.path
+      console.log('uploadSuccess', file)
     },
     handleExceed(files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)

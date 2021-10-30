@@ -50,12 +50,12 @@
                       <h6 class="box-title"><strong>第三届田径运动会开幕式活动礼仪</strong></h6>
                     </div>
                     <div class="box-body">
-                      <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学生社团联合会</p>
-                      <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C楼511</p>
-                      <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-success">512</span></p>
-                      <p><b>活动类型</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;志愿活动</p>
-                      <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2020-2021学年第一学期</p>
-                      <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2021.7.14 12:00 ~ 13:00</p>
+                      <p><b style="padding-right: 20px;">举办单位</b>学生社团联合会</p>
+                      <p><b style="padding-right: 20px;">活动地点</b>C楼511</p>
+                      <p><b style="padding-right: 20px;">申请章数</b><span class="badge badge-success">512</span></p>
+                      <p><b style="padding-right: 20px;">活动类型</b>志愿活动</p>
+                      <p><b style="padding-right: 20px;">活动学期</b>020-2021学年第一学期</p>
+                      <p><b style="padding-right: 20px;">扫章时间</b>2021.7.14 12:00 ~ 13:00</p>
                       <div class="row">
                         <div class="col-12">
                           <div style="display: flex;justify-content:flex-end;">
@@ -97,7 +97,14 @@ export default {
       denyReason: ''
     }
   },
+  created() {
+    this.getActivityId()
+  },
   methods: {
+    getActivityId() {
+      const activeId = this.$router.query.activeId;
+      console.log('activeId', activeId)
+    }
   }
 }
 </script>
