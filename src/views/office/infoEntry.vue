@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import { exportFormat } from '@/api/office'
 import request from '../../utils/request'
 export default {
   name: 'InfoEntry',
@@ -80,11 +81,12 @@ export default {
   methods: {
     getDownload() {
       let _this = this;
-      request.$get('/user/downloadtemplate', {}, () => {
-        // console.log(res.data)
-        // let message = res.data.errorMsg;
-        // request.message(_this, message, 'success')
-      }, _this)
+      exportFormat({}).then((res) => {
+        console.log(res)
+        setTimeout(() => {
+          request.message(_this, '下载成功', 'success')
+        }, 1000);
+      })
     },
     submitUpload () {
       let _this = this

@@ -342,16 +342,16 @@ export default {
     getid(e) {
       this.activityId = e;
     },
+     // 点击触发下载，逻辑在invoke.js
     getDownload(e) {
       this.activityId = e;
       let _this = this;
-      request.$post('/activityStamp/exportExcel', {
-        activityId: _this.activityId
-      }, (res) => {
-        console.log(res.data);
-        let message = res.data.errorMsg;
-        request.message(_this, message, 'success')
-      }, _this)
+      exportExcel({ activityId: _this.activityId }).then((res) => {
+        console.log(res)
+        setTimeout(() => {
+          request.message(_this, '导出成功', 'success')
+        }, 1000);
+      })
     },
     clearFiles() {
       this.fileList = [];

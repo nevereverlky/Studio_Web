@@ -30,11 +30,11 @@ export default function request(option) {
 			const code = response.status
 			const headers = response.headers
 			const message = response.message || ''
+			console.log('download', headers['content-type'].indexOf('application/vnd.ms-excel'))
 			if(code !== 200){
 				// 由于此处无法引入element-ui,暂时打印处理
 				console.log('error', message)
-			} else if (headers['content-type'].indexOf('application/vnd.ms-excel') > -1) {
-
+			} else if (headers['content-type'].indexOf('application/vnd.ms-excel') >= -1) {
 				// 文件流处理 下载文件
 				const content = headers['content-disposition'];
 				// 获取文件名称
