@@ -35,7 +35,6 @@ export default function request(option) {
 				// 由于此处无法引入element-ui,暂时打印处理
 				console.log('error', message)
 			} else if (headers['content-type'].indexOf('application/vnd.ms-excel') >= -1) {
-
 				// 文件流处理 下载文件
 				const content = headers['content-disposition'];
 				// 获取文件名称

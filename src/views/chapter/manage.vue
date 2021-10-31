@@ -132,8 +132,8 @@
                       width="150">
                       <!-- eslint-disable-next-line -->
                       <template slot-scope="scope">
-                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="getid(scope.row.activityId);dialogchapers = true">导入</button>
-                        <button type="button" class="btn btn-sm btn-success btn-outline waves-effect waves-light m-1" @click="getDownload(scope.row.activityId)">导出</button>
+                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="dialogchapers = true">导入</button>
+                        <button type="button" class="btn btn-sm btn-success btn-outline waves-effect waves-light m-1" @click="getDownload()">导出</button>
                       </template>
                     </el-table-column>
                   </el-table-column>
@@ -195,6 +195,7 @@
 <script>
 import { exportExcel } from '@/api/activity'
 import request from '../../utils/request'
+
 export default {
   name: 'ManageChapter',
   inject: ['reload'],
@@ -239,6 +240,12 @@ export default {
     }
   },
   methods: {
+    // 点击触发下载，逻辑在invoke.js
+    getDownload() {
+      exportExcel({ activityId: '201812011402573846878210012018' }).then((res) => {
+        console.log(res)
+      })
+    },
     // 每页条数改变时触发 选择一页显示多少行
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
