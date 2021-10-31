@@ -6,7 +6,7 @@ export function getWeekCreated(data) {
   return request({
     url: "/activity/week/created",
     method: 'get',
-    data
+    params: data
   })
 }
 
@@ -19,18 +19,20 @@ export function getActivityOrganizers() {
 }
 
 // 获取本周审批通过的活动列表
-export function getWeekApproved() {
+export function getWeekApproved(data) {
   return request({
     url: "/activity/week/approved",
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 
 // 获取本周未达标的活动列表
-export function getWeekUnqualified() {
+export function getWeekUnqualified(data) {
   return request({
     url: "/activity/week/unQualified",
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 
@@ -53,18 +55,20 @@ export function createActivity(data) {
 }
 
 // 查看自己申请的已审批通过的活动
-export function queryApprovedListByUserID() {
+export function queryApprovedListByUserID(data) {
   return request({
     url: "/activity/approved/byUserID",
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 
 // 查看自己申请的未审批通过（驳回、待审批）的活动
-export function queryCanceledListByUserID() {
+export function queryCanceledListByUserID(data) {
   return request({
     url: "/activity/canceled/byUserID",
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 
@@ -82,7 +86,7 @@ export function queryApprovedListAll(data) {
   return request({
     url: "/activity/approved/by",
     method: 'get',
-    data
+    params: data
   })
 }
 
@@ -91,31 +95,34 @@ export function queryCanceledAll(data) {
   return request({
     url: "/activity/canceled/by",
     method: 'get',
-    data
+    params: data
   })
 }
 
 // 获取审批详情
-export function queryActivityDetail() {
+export function queryActivityDetail(data) {
   return request({
     url: "/activity/ByActivityId",
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 
 // 审批通过
-export function publishActivity() {
+export function publishActivity(data) {
   return request({
     url: "/activity/publish",
-    method: 'put'
+    method: 'put',
+    params: data
   })
 }
 
 // 审批驳回
-export function cancelActivity() {
+export function cancelActivity(data) {
   return request({
     url: "/activity/cancel",
-    method: 'put'
+    method: 'put',
+    params: data
   })
 }
 

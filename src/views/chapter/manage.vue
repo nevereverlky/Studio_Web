@@ -193,7 +193,7 @@
 </template>
 
 <script>
-import { exportExcel } from '@/api/activity'
+// import { exportExcel } from '@/api/activity'
 import request from '../../utils/request'
 
 export default {
@@ -241,11 +241,11 @@ export default {
   },
   methods: {
     // 点击触发下载，逻辑在invoke.js
-    getDownload() {
-      exportExcel({ activityId: '201812011402573846878210012018' }).then((res) => {
-        console.log(res)
-      })
-    },
+    // getDownload() {
+    //   exportExcel({ activityId: '201812011402573846878210012018' }).then((res) => {
+    //     console.log(res)
+    //   })
+    // },
     // 每页条数改变时触发 选择一页显示多少行
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
