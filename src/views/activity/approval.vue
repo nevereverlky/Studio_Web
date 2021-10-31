@@ -146,7 +146,7 @@
                                   width="100">
                                   <!-- eslint-disable-next-line -->
                                   <template slot-scope="scope">
-                                    <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="toApprove(scope.row.id)">审批</button>
+                                    <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="toApprove(scope.row.activityId)">审批</button>
                                   </template>
                                 </el-table-column>
                               </el-table-column>
@@ -524,6 +524,7 @@ export default {
     //   }
     // },
     toApprove(id) {
+      console.log('toApprove', id)
       this.$router.push({
         path: '/approvedetail',
         name: 'approveDetail',

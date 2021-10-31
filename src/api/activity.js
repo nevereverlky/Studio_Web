@@ -100,26 +100,29 @@ export function queryCanceledAll(data) {
 }
 
 // 获取审批详情
-export function queryActivityDetail() {
+export function queryActivityDetail(data) {
   return request({
     url: "/activity/ByActivityId",
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 
 // 审批通过
-export function publishActivity() {
+export function publishActivity(data) {
   return request({
     url: "/activity/publish",
-    method: 'put'
+    method: 'put',
+    params: data
   })
 }
 
 // 审批驳回
-export function cancelActivity() {
+export function cancelActivity(data) {
   return request({
     url: "/activity/cancel",
-    method: 'put'
+    method: 'put',
+    params: data
   })
 }
 

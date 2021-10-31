@@ -82,8 +82,8 @@
                                         </div>
                                         <div style="flex: 1">
                                           <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">{{item.applicationStamper}}</span></p>
-                                          <p><b>活动时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityStampedStart}}--{{item.activityStampedEnd}}</p>
-                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityStampedStart}}--{{item.activityStampedEnd}}</p>
+                                          <p><b>活动时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseT(item.activityStampedStart)}}--{{parseT(item.activityStampedEnd)}}</p>
+                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseT(item.activityStampedStart)}}--{{parseT(item.activityStampedEnd)}}</p>
                                         </div>
                                       </div>
                                     </div>
@@ -140,20 +140,22 @@
                                           <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                           <span class="badge badge-primary">{{item.applicationStamper}}</span>
                                           </p>
-                                          <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseTime(item.activityStampedStart)}}--{{parseTime(item.activityStampedEnd)}}</p>
-                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseTime(item.activityStampedStart)}}--{{parseTime(item.activityStampedEnd)}}</p>
+                                          <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseT(item.activityStampedStart)}}--{{parseT(item.activityStampedEnd)}}</p>
+                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseT(item.activityStampedStart)}}--{{parseT(item.activityStampedEnd)}}</p>
                                         </div>
                                       </div>
-                                      <div class="box-footer text-right p-0">
-                                      <div class="px-25 py-5 w-100" style="float:left">
-                                        <span class="badge badge-warning">已驳回</span>
+                                      <div class="box-footer text-right p-0" v-if="item.state === 'CANCELED'">
+                                        <div class="px-25 py-5 w-100" style="float:left">
+                                          <span class="badge badge-warning">已驳回</span>
+                                        </div>
+                                        <div class="px-25 py-5 w-400" style="float:left">
+                                          {{item.cancelReason || '暂无'}}
+                                        </div>
+                                        <el-tooltip class="item" effect="dark" content="仅可修改一次" placement="bottom">
+                                          <button class="btn btn-outline btn-warning btn-sm"  @click="editFormVisible = true"><i class="fa fa-pencil"/></button>
+                                        </el-tooltip>
                                       </div>
-                                      <div class="px-25 py-5 w-400" style="float:left">
-                                        驳回原因驳回原因驳回原因驳回原因
-                                      </div>
-                                      <button class="btn btn-outline btn-warning btn-sm"><i class="fa fa-pencil"/></button>
-                                    </div>
-                                      <div class="box-footer text-right p-0">
+                                      <div class="box-footer text-right p-0" v-else>
                                         <div class="px-25 py-5 w-100" style="float:left"><span class="badge badge-success">待审批</span></div>
                                         <el-tooltip class="item" effect="dark" content="仅可修改一次" placement="bottom">
                                           <button class="btn btn-outline btn-success btn-sm" @click="editFormVisible = true"><i class="fa fa-pencil"/></button>
@@ -273,23 +275,23 @@
 
         <el-dialog :visible.sync="editFormVisible" title="修改申请" width="60%">
 
-          <el-form :model="form" size="small">
+          <el-form :model="editForm" size="small">
             <div style="display:flex">
               <div style="flex:1">
                 <el-form-item :label-width="formLabelWidth" label="活动名称">
-                  <el-input v-model="form.activityName" autocomplete="off"/>
+                  <el-input v-model="editForm.activityName" autocomplete="off"/>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="举办单位">
-                  <el-select v-model="form.organizationMessage" placeholder="请选择活动主办方">
+                  <el-select v-model="editForm.organizationMessage" placeholder="请选择活动主办方">
                     <el-option label="计算机系学生会" value="计算机系学生会"/>
                     <el-option label="β-house工作室" value="β-house工作室"/>
                   </el-select>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="活动地点">
-                  <el-input v-model="form.location" autocomplete="off"/>
+                  <el-input v-model="editForm.location" autocomplete="off"/>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="活动类型">
-                  <el-select v-model="form.activityType" placeholder="请选择活动类型">
+                  <el-select v-model="editForm.activityType" placeholder="请选择活动类型">
                     <el-option label="校园活动" value="校园活动"/>
                     <el-option label="志愿活动" value="志愿活动"/>
                     <el-option label="实践活动" value="实践活动"/>
@@ -300,7 +302,7 @@
               <div style="flex:1">
                 <el-form-item :label-width="formLabelWidth" label="活动时间">
                   <el-date-picker
-                    v-model="form.activityTime"
+                    v-model="editForm.activityTime"
                     type="datetimerange"
                     range-separator="至"
                     start-placeholder="开始日期"
@@ -308,14 +310,14 @@
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="扫章时间">
                   <el-date-picker
-                    v-model="form.stampedTime"
+                    v-model="editForm.stampedTime"
                     type="datetimerange"
                     range-separator="至"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"/>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="申请章数">
-                  <el-input-number v-model="form.applicationStamper" :min="1" :max="1000" size="small" label="描述文字" @change="handleChange"/>
+                  <el-input-number v-model="editForm.applicationStamper" :min="1" :max="1000" size="small" label="描述文字" @change="handleChange"/>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="钉钉截图">
                   <el-upload
@@ -324,9 +326,9 @@
                     :before-remove="beforeRemove"
                     :limit="1"
                     :on-exceed="handleExceed"
-                    :file-list="fileList"
+                    :file-list="editFileList"
                     class="upload-demo"
-                    action=""
+                    :action="`${baseApi}/common/aliyun/ding`">
                     multiple>
                     <el-button size="small" type="primary" plain>点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -337,7 +339,7 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button size="small" @click="editFormVisible = false">取 消</el-button>
-            <el-button type="primary" size="small" @click="editFormVisible = false">重新提交</el-button>
+            <el-button type="primary" size="small" @click="editActivity">重新提交</el-button>
           </div>
 
         </el-dialog>
@@ -402,8 +404,24 @@ export default {
       activityStatus: '', //活动状态（'PASS'/'FAIL'）
       addFormVisible: false,
       editFormVisible: false,
+      editFileList: [],
       
       form: {
+        activityName: '',
+        organizationMessage: '',
+        location: '',
+        activityType: '',
+        activityStampedStart: '',
+        activityStampedEnd: '',
+        activityStartTime: '',
+        activityEndTime: '',
+        activityTime: [],
+        stampedTime: [],
+        applicationStamper: '',
+        pictureUrl: 'www.baidu.com',
+        // fileList: []
+      },
+      editForm: {
         activityName: '',
         organizationMessage: '',
         location: '',
@@ -426,6 +444,7 @@ export default {
       approvedList_length: 0, // 总条目数
       canceledList_length: 0, // 总条目数
       pageSize: 10, // 每页的数据条数
+      cancelReason: '',
     }
   },
   created () {
@@ -490,10 +509,11 @@ export default {
     },
     // 获取活动列表
     getCanceledActivityData() {
-      queryCanceledListByUserID({userId: this.userId}).then((res) => {
+      queryCanceledListByUserID().then((res) => {
+      // queryCanceledListByUserID({searchCreatorStuId: this.userId}).then((res) => {
         console.log('queryCanceledListByUserID', res)
-        res.data.data.content ? this.canceledList = res.data.data.content : null;
-        res.data.data.totalPages ? this.canceledList_length = res.data.data.totalPages : null;
+        res.data.content ? this.canceledList = res.data.content : null;
+        res.data.totalPages ? this.canceledList_length = res.data.totalPages : null;
       })
       
       // let _this = this
@@ -513,10 +533,12 @@ export default {
     },
     // 获取活动列表
     getApprovedActivityData() {
-      queryApprovedListByUserID({userId: this.userId}).then((res) => {
+      queryApprovedListByUserID().then((res) => {
+      // queryApprovedListByUserID({searchCreatorStuId: this.userId}).then((res) => {
         console.log('queryCanceledListByUserID', res)
-        res.data.data.content ? this.approvedList = res.data.data.content : null;
-        res.data.data.totalPages ? this.approvedList_length = res.data.data.totalPages : null;
+        // console.log('queryCanceledListContent', res.data.content)
+        res.data.content ? this.approvedList = res.data.content : null;
+        res.data.totalPages ? this.approvedList_length = res.data.totalPages : null;
       })
       
       // let _this = this
@@ -579,6 +601,28 @@ export default {
         console.log('createActivity', res)
         this.$message.success(`活动创建成功！`)
         this.addFormVisible = false;
+      })
+    },
+    // 修改活动申请
+    editActivity() {
+      console.log('pic', this.editForm.pictureUrl)
+      if(!this.editForm.pictureUrl) {
+        this.$message.warning(`图片未上传！`)
+        return;
+      }
+      this.editForm.activityStartTime = new Date(this.editForm.activityTime[0]).getTime()/1000;
+      this.editForm.activityEndTime = new Date(this.editForm.activityTime[1]).getTime()/1000
+      this.editForm.activityStampedStart = new Date(this.editForm.stampedTime[0]).getTime()/1000
+      this.editForm.activityStampedEnd = new Date(this.editForm.stampedTime[1]).getTime()/1000
+      const params = this.editForm
+      params.userId = this.userId
+      delete params.stampedTime
+      delete params.activityTime
+      console.log('createActivity', params);
+      createActivity(params).then((res) => {
+        console.log('createActivity', res)
+        this.$message.success(`活动修改成功！`)
+        this.editFormVisible = false;
       })
     },
     handleRemove(file, fileList) {

@@ -27,25 +27,27 @@
               <div class="row">
                 <div class="col-xl-3 col-md-6 col-12">
                   <div class="box box-success pull-up">
-                    <div class="box-body">
-                      <div class="d-flex align-items-center font-size-18">
-                        <div class="icon">
-                          <i class="fa fa-puzzle-piece text-white mr-10"/>
+                    <el-tooltip class="item" effect="dark" content="点击显示本周创建的活动数" placement="top">
+                      <div class="box-body" @click="showCurweek">
+                        <div class="d-flex align-items-center font-size-18">
+                          <div class="icon">
+                            <i class="fa fa-puzzle-piece text-white mr-10"/>
+                          </div>
+                          <p class="font-weight-medium mb-0 text-white">本周创建的活动数</p>
                         </div>
-                        <p class="font-weight-medium mb-0 text-white">本周创建的活动数</p>
-                      </div>
-                      <div class="d-flex align-items-center flex-wrap">
-                        <h2 class="font-weight-normal text-white">965</h2>
-                        <div class="badge badge-light badge-pill ml-10">
-                          <div class="d-flex align-items-baseline">
-                            <span class="mr-2">增加</span>
-                            <span class="mb-0">485</span>
-                            <span class="fa fa-arrow-up" style="margin-left: 5px"/>
+                        <div class="d-flex align-items-center flex-wrap">
+                          <h2 class="font-weight-normal text-white">965</h2>
+                          <div class="badge badge-light badge-pill ml-10">
+                            <div class="d-flex align-items-baseline">
+                              <span class="mr-2">增加</span>
+                              <span class="mb-0">485</span>
+                              <span class="fa fa-arrow-up" style="margin-left: 5px"/>
+                            </div>
                           </div>
                         </div>
+                        <small class="font-weight-medium d-block text-white-50">Total for this month</small>
                       </div>
-                      <small class="font-weight-medium d-block text-white-50">Total for this month</small>
-                    </div>
+                    </el-tooltip>
                   </div>
                 </div>
                 <div class="col-xl-3 col-md-6 col-12">
@@ -254,7 +256,7 @@
                       prop="start"
                       width="280">
                       <template slot-scope="scope">
-                        {{ parseTime(scope.row.start)+'-'+parseTime(scope.row.end) }}
+                        {{ parseTime(scope.row.activityStampedStart)+'-'+parseTime(scope.row.activityStampedEnd) }}
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -332,7 +334,7 @@
                       prop="start"
                       width="280">
                       <template slot-scope="scope">
-                        {{ parseTime(scope.row.start)+'-'+parseTime(scope.row.end) }}
+                        {{ parseTime(scope.row.activityStampedStart)+'-'+parseTime(scope.row.activityStampedEnd) }}
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -411,7 +413,7 @@
                       prop="start"
                       width="180">
                       <template slot-scope="scope">
-                        {{ parseTime(scope.row.start)+'-'+parseTime(scope.row.end) }}
+                        {{ parseTime(scope.row.activityStampedStart)+'-'+parseTime(scope.row.activityStampedEnd) }}
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -537,6 +539,12 @@ export default {
     this.getWeekUnqualifiedList();
   },
   methods: {
+    showCurweek() {
+      this.showApprovedList = false;
+      this.showCurWeekList = true;
+      this.showUnqualifiedList = false;
+      this.showNotgraduation = false;
+    },
     showApproved() {
       this.showApprovedList = true;
       this.showCurWeekList = false;
