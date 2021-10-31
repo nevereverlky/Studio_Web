@@ -129,7 +129,6 @@ export function exportExcel(data) {
   })
 }
 
-// 导出Excel
 export function getApprovedActivityList() {
   return request({
     url: "/activity/getApprovedActivityList",
