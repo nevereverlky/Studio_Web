@@ -8,7 +8,7 @@
         <!-- Sidebar toggle button-->
         <div>
           <ul class="nav">
-            <li class="btn-group nav-item">
+            <!-- <li class="btn-group nav-item">
               <a href="#" class="waves-effect waves-light nav-link rounded svg-bt-icon" data-toggle="push-menu" role="button">
                 <i class="fa fa-navicon" aria-hidden="true"/>
               </a>
@@ -17,7 +17,7 @@
               <a href="#" data-provide="fullscreen" class="waves-effect waves-light nav-link rounded svg-bt-icon" title="Full Screen">
                 <i class="fa fa-expand" aria-hidden="true"/>
               </a>
-            </li>
+            </li> -->
           </ul>
         </div>
 

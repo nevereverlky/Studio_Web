@@ -88,15 +88,26 @@
                                   prop="account"
                                   width="100">
                                   <template slot-scope="scope">
-                                    {{ scope.row.creatorId }}
+                                    {{ scope.row.stuId }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
                                   label="活动名称"
                                   prop="activityName">
                                   <template slot-scope="scope">
+                                    <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'lectureActivity'">
+                                      讲座活动
+                                    </span>
+                                    <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'schoolActivity'">
+                                      校园活动
+                                    </span>
+                                    <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'volunteerActivity'">
+                                      志愿活动
+                                    </span>
+                                    <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'practiceActivity'">
+                                      实践活动
+                                    </span>
                                     {{ scope.row.activityName }}
-                                    <span class="badge badge-dark" style="margin-left: 5px">{{ scope.row.type }}</span>
                                   </template>
                                 </el-table-column>
                                 <el-table-column
@@ -214,15 +225,26 @@
                                   prop="account"
                                   width="100">
                                   <template slot-scope="scope">
-                                    {{ scope.row.creatorId }}
+                                    {{ scope.row.stuId }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
                                   label="活动名称"
                                   prop="activename">
                                   <template slot-scope="scope">
+                                    <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'lectureActivity'">
+                                      讲座活动
+                                    </span>
+                                    <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'schoolActivity'">
+                                      校园活动
+                                    </span>
+                                    <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'volunteerActivity'">
+                                      志愿活动
+                                    </span>
+                                    <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'practiceActivity'">
+                                      实践活动
+                                    </span>
                                     {{ scope.row.activityName }}
-                                    <span class="badge badge-dark" style="margin-left: 5px">{{ scope.row.type }}</span>
                                   </template>
                                 </el-table-column>
                                 <el-table-column

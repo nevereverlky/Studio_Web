@@ -30,11 +30,12 @@ export default function request(option) {
 			const code = response.status
 			const headers = response.headers
 			const message = response.message || ''
-			console.log('download', headers['content-type'].indexOf('application/vnd.ms-excel'))
+			console.log('content-type', headers['content-type'])
+			console.log('download', headers['content-type'].indexOf('application/octet-stream'))
 			if(code !== 200){
 				// 由于此处无法引入element-ui,暂时打印处理
 				console.log('error', message)
-			} else if (headers['content-type'].indexOf('application/vnd.ms-excel') >= -1) {
+			} else if (headers['content-type'].indexOf('application/octet-stream') > -1) {
 				// 文件流处理 下载文件
 				const content = headers['content-disposition'];
 				// 获取文件名称
@@ -43,7 +44,13 @@ export default function request(option) {
 				file_name = decodeURIComponent(file_name)
 
 				if ('download' in document.createElement('a')) { // 非IE下载
-					const url = window.URL.createObjectURL(data)
+					// try {
+						let binaryData = [];
+						binaryData.push(data);
+						const url = window.URL.createObjectURL(new Blob(binaryData))
+					// } catch (error) {
+					// 	const url = window.URL.createObjectURL(data)
+					// }
 					const link = document.createElement('a')
 					link.href = url
 					link.setAttribute('download', file_name)
