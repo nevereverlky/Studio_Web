@@ -505,7 +505,6 @@ export default {
       }else {
         this.getApprovedActivityData()
       }
-      this.getActivityData();
     },
     // 获取活动列表
     getCanceledActivityData() {

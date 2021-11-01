@@ -26,7 +26,7 @@
             <section class="content">
               <div class="row">
                 <div class="col-xl-3 col-md-6 col-12">
-                  <div class="box box-success pull-up">
+                  <div class="box box-success pull-up" style="cursor:pointer">
                     <el-tooltip class="item" effect="dark" content="点击显示本周创建的活动数" placement="top">
                       <div class="box-body" @click="showCurweek">
                         <div class="d-flex align-items-center font-size-18">
@@ -51,7 +51,7 @@
                   </div>
                 </div>
                 <div class="col-xl-3 col-md-6 col-12">
-                  <div class="box box-primary pull-up">
+                  <div class="box box-primary pull-up" style="cursor:pointer">
                     <el-tooltip class="item" effect="dark" content="点击显示本周审批通过的活动数" placement="top">
                       <div class="box-body" @click="showApproved">
                         <div class="d-flex align-items-center font-size-18">
@@ -76,7 +76,7 @@
                   </div>
                 </div>
                 <div class="col-xl-3 col-md-6 col-12">
-                  <div class="box box-success pull-up">
+                  <div class="box box-success pull-up" style="cursor:pointer">
                     <el-tooltip class="item" effect="dark" content="点击显示本周未达标的活动数" placement="top">
                       <div class="box-body" @click="showUnqualified">
                         <div class="d-flex align-items-center font-size-18">
@@ -101,7 +101,7 @@
                   </div>
                 </div>
                 <div class="col-xl-3 col-md-6 col-12">
-                  <div class="box box-primary pull-up">
+                  <div class="box box-primary pull-up" style="cursor:pointer">
                     <el-tooltip class="item" effect="dark" content="点击显示未达毕业要求的毕业数" placement="top">
                       <div class="box-body" @click="showNotgraduate">
                         <div class="d-flex align-items-center font-size-18">

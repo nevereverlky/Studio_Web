@@ -71,7 +71,7 @@ export default {
       } else {
         // let params = {username: _this.loginForm.username, password: _this.loginForm.password}
         login({username: _this.loginForm.username, password: _this.loginForm.password}).then((res) => {
-          console.log('res.data', res.data);
+          console.log(res.data);
           let message = res.errorMsg;
           let token = res.data.token;
           // let userId = res.data.userId;

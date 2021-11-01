@@ -193,7 +193,7 @@
 </template>
 
 <script>
-// import { exportExcel } from '@/api/activity'
+import { exportExcel } from '@/api/activity'
 import request from '../../utils/request'
 
 export default {
