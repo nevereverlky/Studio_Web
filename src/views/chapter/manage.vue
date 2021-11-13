@@ -68,7 +68,7 @@
                     </template>
                     <el-table-column
                       label="负责人"
-                      prop="account"
+                      prop="stuId"
                       width="150">
                       <template slot-scope="scope">
                         {{ scope.row.stuId }}
@@ -76,7 +76,7 @@
                     </el-table-column>
                     <el-table-column
                       label="活动名称"
-                      prop="activename">
+                      prop="activityName">
                       <template slot-scope="scope">
                         <span class="badge badge-dark" style="margin-right: 5px" v-if="scope.row.type === 'lectureActivity'">
                           讲座活动
@@ -95,7 +95,7 @@
                     </el-table-column>
                     <el-table-column
                       label="举办单位"
-                      prop="organization"
+                      prop="organizationMessage"
                       width="140">
                       <template slot-scope="scope">
                         {{ scope.row.organizationMessage }}
@@ -103,7 +103,7 @@
                     </el-table-column>
                     <el-table-column
                       label="活动地点"
-                      prop="place"
+                      prop="location"
                       width="100">
                       <template slot-scope="scope">
                         {{ scope.row.location }}
@@ -111,7 +111,7 @@
                     </el-table-column>
                     <el-table-column
                       label="扫章时间"
-                      prop="time"
+                      prop="activityStamped"
                       width="180">
                       <template slot-scope="scope">
                          {{scope.row.activityStampedStart | dateFormat}}<br>——{{scope.row.activityStampedEnd | dateFormat}}
@@ -119,7 +119,7 @@
                     </el-table-column>
                     <el-table-column
                       label="申请章数"
-                      prop="action"
+                      prop="applicationStamper"
                       width="100">
                       <!-- eslint-disable-next-line -->
                       <template slot-scope="scope">
@@ -132,8 +132,8 @@
                       width="150">
                       <!-- eslint-disable-next-line -->
                       <template slot-scope="scope">
-                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="dialogchapers = true">导入</button>
-                        <button type="button" class="btn btn-sm btn-success btn-outline waves-effect waves-light m-1" @click="getDownload()">导出</button>
+                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light m-1" @click="getid(scope.row.activityId);dialogchapers = true">导入</button>
+                        <button type="button" class="btn btn-sm btn-success btn-outline waves-effect waves-light m-1" @click="getDownload(scope.row.activityId)">导出</button>
                       </template>
                     </el-table-column>
                   </el-table-column>
@@ -195,6 +195,7 @@
 <script>
 import { exportExcel } from '@/api/activity'
 import request from '../../utils/request'
+import { formateTime } from '../../utils/util'
 
 export default {
   name: 'ManageChapter',
@@ -287,16 +288,6 @@ export default {
       this.currentPage = 1;
       this.getActivityData();
     },
-    formateTime (time) {
-      let times = new Date(time)
-      let year = times.getFullYear()
-      let month = times.getMonth() + 1 > 9 ? times.getMonth() + 1 : 0 + (times.getMonth() + 1)
-      let date = times.getDate() > 9 ? times.getDate() : 0 + times.getDate()
-      let hour = times.getHours() > 9 ? times.getHours() : 0 + times.getHours()
-      let minute = times.getMinutes() > 9 ? times.getMinutes() : 0 + times.getMinutes()
-      let second = times.getSeconds() > 9 ? times.getSeconds() : 0 + times.getMinutes()
-      return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second
-    },
     handleSearch_activityStamped(val) {
       const _this = this
       console.log(val)
@@ -305,8 +296,8 @@ export default {
         _this.search_activityStampedStart = ''
         _this.search_activityStampedEnd = ''
       } else {
-        var dateStart = new Date(_this.formateTime(val[0]));
-        var dateEnd = new Date(_this.formateTime(val[1]));
+        var dateStart = new Date(formateTime(val[0]));
+        var dateEnd = new Date(formateTime(val[1]));
         var search1 = dateStart.getTime();
         var search2 = dateEnd.getTime();
         console.log(search1)
@@ -331,11 +322,11 @@ export default {
       }, (res) => {
         console.log(res.data);
         console.log(_this.userId);
-        let totalPages = res.data.data.totalPages;
+        let totalElements = res.data.data.totalElements;
         let activityData = res.data.data.content;
         _this.activityData = activityData;
         // _this.finalShow = activityData;
-        _this.activityData_length = totalPages;
+        _this.activityData_length = totalElements;
         _this.loading = false;
       }, _this)
     },
@@ -348,9 +339,7 @@ export default {
       let _this = this;
       exportExcel({ activityId: _this.activityId }).then((res) => {
         console.log(res)
-        setTimeout(() => {
-          request.message(_this, '导出成功', 'success')
-        }, 1000);
+        request.message(_this, '导出成功', 'success')
       })
     },
     clearFiles() {

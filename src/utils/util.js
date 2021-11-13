@@ -69,3 +69,14 @@ export function parseTime(time, cFormat) {
   })
   return time_str
 }
+
+export function formateTime (time) {
+  let times = new Date(time)
+  let year = times.getFullYear()
+  let month = times.getMonth() + 1 > 9 ? times.getMonth() + 1 : 0 + (times.getMonth() + 1)
+  let date = times.getDate() > 9 ? times.getDate() : 0 + times.getDate()
+  let hour = times.getHours() > 9 ? times.getHours() : 0 + times.getHours()
+  let minute = times.getMinutes() > 9 ? times.getMinutes() : 0 + times.getMinutes()
+  let second = times.getSeconds() > 9 ? times.getSeconds() : 0 + times.getMinutes()
+  return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second
+}

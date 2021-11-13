@@ -52,7 +52,7 @@
 
                         <div v-if="approvedList.length !== 0">
                           <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-10">
                               <el-timeline>
                                   <el-timeline-item 
                                   v-for="(item,index) in approvedList"
@@ -117,7 +117,7 @@
                       <div id="navpills2-2" class="tab-pane">
                         <div v-if="canceledList.length !== 0">
                           <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-10">
                               <el-timeline>
                                   <el-timeline-item 
                                   v-for="(item,index) in canceledList"
@@ -499,6 +499,7 @@ export default {
       this.getApprovedActivityData();
     },
     getstatus(e) {
+      console.log(e)
       this.activityStatus = e;
       if(this.activityStatus === 'FAIL') {
         this.getCanceledActivityData()

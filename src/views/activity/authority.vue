@@ -188,6 +188,7 @@
 
 <script>
 import request from '../../utils/request'
+import { formateTime } from '../../utils/util'
 export default {
   name: 'Authority',
   data() {
@@ -280,16 +281,6 @@ export default {
       this.currentPage = 1
       this.getActivityData();
     },
-    formateTime (time) {
-      let times = new Date(time)
-      let year = times.getFullYear()
-      let month = times.getMonth() + 1 > 9 ? times.getMonth() + 1 : 0 + (times.getMonth() + 1)
-      let date = times.getDate() > 9 ? times.getDate() : 0 + times.getDate()
-      let hour = times.getHours() > 9 ? times.getHours() : 0 + times.getHours()
-      let minute = times.getMinutes() > 9 ? times.getMinutes() : 0 + times.getMinutes()
-      let second = times.getSeconds() > 9 ? times.getSeconds() : 0 + times.getMinutes()
-      return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second
-    },
     handleSearch_activityStamped(val) {
       const _this = this
       console.log(val)
@@ -298,8 +289,8 @@ export default {
         _this.search_activityStampedStart = ''
         _this.search_activityStampedEnd = ''
       } else {
-        var dateStart = new Date(_this.formateTime(val[0]));
-        var dateEnd = new Date(_this.formateTime(val[1]));
+        var dateStart = new Date(formateTime(val[0]));
+        var dateEnd = new Date(formateTime(val[1]));
         var search1 = dateStart.getTime();
         var search2 = dateEnd.getTime();
         console.log(search1)
@@ -323,11 +314,11 @@ export default {
       }, (res) => {
         console.log(res.data);
         console.log(_this.userId);
-        let totalPages = res.data.data.totalPages;
+        let totalElements = res.data.data.totalElements;
         let activityData = res.data.data.content;
         _this.activityData = activityData;
         // _this.finalShow = activityData;
-        _this.activityData_length = totalPages;
+        _this.activityData_length = totalElements;
         _this.loading = false;
       }, _this)
     },
@@ -352,15 +343,15 @@ export default {
     },
     getdetail(e, r, s, n) {
       this.activityId = e;
-      this.form.activityStampedStart = this.formateTime(r);
-      this.form.activityStampedEnd = this.formateTime(s);
+      this.form.activityStampedStart = formateTime(r);
+      this.form.activityStampedEnd = formateTime(s);
       this.activityName = n;
     },
     submitEdit() {
       let _this= this;
       let value = _this.form.activityStamped;
-      var dateStart = new Date(_this.formateTime(value[0]));
-      var dateEnd = new Date(_this.formateTime(value[1]));
+      var dateStart = new Date(formateTime(value[0]));
+      var dateEnd = new Date(formateTime(value[1]));
       var search1 = dateStart.getTime();
       var search2 = dateEnd.getTime();
       console.log(search1)
@@ -373,8 +364,12 @@ export default {
         activityStampedEnd: _this.form.activityStampedEnd
       }, (res) => {
         console.log(res.data);
-        _this.edittimeVisible = false;
-        _this.getActivityData();
+        let message = res.data.errorMsg;
+        setTimeout(function () {
+          _this.edittimeVisible = false;
+          _this.getActivityData();
+          request.message(_this, message, 'success');
+        }, 1000)
       }, _this)
     }
   }

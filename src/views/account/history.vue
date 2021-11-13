@@ -57,27 +57,29 @@ export default {
   name: 'History',
   data() {
       return {
-        activities: [{
-          content: '更新历史',
-          timestamp: '2018-04-12 20:46',
-          size: 'large',
-          type: 'primary',
-          icon: 'el-icon-more'
-        },
-        {
-          content: '更新历史',
-          timestamp: '2018-04-12 20:46',
-          size: 'large',
-          type: 'primary',
-          icon: 'el-icon-more'
-        },
-        {
-          content: '更新历史',
-          timestamp: '2018-04-12 20:46',
-          size: 'large',
-          type: 'primary',
-          icon: 'el-icon-more'
-        }, ]
+        activities: [
+          {
+            content: '测试',
+            timestamp: '2021-11-01 9:46',
+            size: 'large',
+            type: 'primary',
+            icon: 'el-icon-more'
+          }, 
+          {
+            content: '完成活动负责人模块接口',
+            timestamp: '2021-10-23 20:46',
+            size: 'large',
+            type: 'primary',
+            icon: 'el-icon-more'
+          },
+          {
+            content: '完成管理员模块接口',
+            timestamp: '2021-10-20 22:40',
+            size: 'large',
+            type: 'primary',
+            icon: 'el-icon-more'
+          }
+        ]
       };
     },
   created() {
