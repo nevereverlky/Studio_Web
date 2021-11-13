@@ -9,7 +9,8 @@ const isProduction = process.env.NODE_ENV !== 'development';
 // gzip压缩
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
-const api = 'http://47.98.37.45:8080' // 开发环境
+const api = 'http://mc.upblog.cn:666'
+// const api = 'http://47.98.37.45:8080' // 开发环境
 // const api = 'http://127.0.0.1:2077'
 
 const path = require('path')

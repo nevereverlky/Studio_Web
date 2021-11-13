@@ -91,7 +91,7 @@ export function queryApprovedListAll(data) {
 }
 
 // 获取未审批通过的活动列表
-export function queryCanceledAll(data) {
+export function queryCanceledListAll(data) {
   return request({
     url: "/activity/canceled/by",
     method: 'get',

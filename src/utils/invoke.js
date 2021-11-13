@@ -39,7 +39,7 @@ export default function request(option) {
 				// 文件流处理 下载文件
 				const content = headers['content-disposition'];
 				// 获取文件名称
-				let file_name = (_.split(content, 'fileName='))[1]
+				let file_name = (_.split(content, 'filename='))[1]
 				// 解码
 				file_name = decodeURIComponent(file_name)
 
