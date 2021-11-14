@@ -152,13 +152,13 @@
                                           {{item.cancelReason || '暂无'}}
                                         </div>
                                         <el-tooltip class="item" effect="dark" content="仅可修改一次" placement="bottom">
-                                          <button class="btn btn-outline btn-warning btn-sm"  @click="editFormVisible = true"><i class="fa fa-pencil"/></button>
+                                          <button class="btn btn-outline btn-warning btn-sm"  @click="initEditForm(index)"><i class="fa fa-pencil"/></button>
                                         </el-tooltip>
                                       </div>
                                       <div class="box-footer text-right p-0" v-else>
                                         <div class="px-25 py-5 w-100" style="float:left"><span class="badge badge-success">待审批</span></div>
                                         <el-tooltip class="item" effect="dark" content="仅可修改一次" placement="bottom">
-                                          <button class="btn btn-outline btn-success btn-sm" @click="editFormVisible = true"><i class="fa fa-pencil"/></button>
+                                          <button class="btn btn-outline btn-success btn-sm" @click="initEditForm(index)"><i class="fa fa-pencil"/></button>
                                         </el-tooltip>
                                       </div>
                                     </div>
@@ -258,7 +258,7 @@
                     :on-exceed="handleExceed"
                     :file-list="fileList"
                     class="upload-demo"
-                    :action="`${baseApi}/common/aliyun/ding`">
+                    :http-request="onUpload">
                     <el-button size="small" type="primary" plain>点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
@@ -328,8 +328,7 @@
                     :on-exceed="handleExceed"
                     :file-list="editFileList"
                     class="upload-demo"
-                    :action="`${baseApi}/common/aliyun/ding`">
-                    multiple>
+                    :http-request="onUpload">
                     <el-button size="small" type="primary" plain>点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
@@ -355,7 +354,8 @@ import { localStorageGet, parseTime } from '@/utils/util'
 import { getActivityOrganizers,
         createActivity,
         queryApprovedListByUserID,
-        queryCanceledListByUserID, } from '@/api/activity'
+        queryCanceledListByUserID,
+        picUpload, } from '@/api/activity'
 
 export default {
   name: 'Inquiry',
@@ -462,6 +462,34 @@ export default {
     },
   },
   methods: {
+    /**
+     * 上传文件
+     * describe: ''
+     */
+    uploadProfile(fileObj) {
+      const formData = new FormData()
+      formData.append('file', fileObj.file)
+      return new Promise((resolve, reject) => {
+        picUpload(formData).then((res) => {
+          this.form.pictureUrl = res.data.path
+          this.$message.success(`图片上传成功！`)
+          resolve(res.data.path)
+        }).catch((err) => {
+          console.log(err)
+          this.$message.warning(`图片上传失败，请联系管理员！`)
+          reject()
+        })
+      })
+    },
+    // 上传文件
+    async onUpload(fileObj) {
+      await this.uploadProfile(fileObj)
+    },
+    // 修改框内容回填
+    initEditForm(index) {
+      this.editForm = this.canceledList[index]
+      this.editFormVisible = true;
+    },
     // 时间戳解析
     parseT(t) {
       return parseTime(t)
@@ -515,22 +543,8 @@ export default {
         res.data.content ? this.canceledList = res.data.content : null;
         res.data.totalPages ? this.canceledList_length = res.data.totalPages : null;
       })
-      
-      // let _this = this
-      // request.$get('', {
-      //   userId: _this.userId,
-      //   page: _this.currentPage,
-      //   limit: _this.pageSize,
-      //   orderRule: 'DESC'
-      // }, (res) => {
-      //   console.log(res.data);
-      //   let totalPages = res.data.data.totalPages;
-      //   let activityData = res.data.data.content;
-      //   _this.activityData = activityData;
-      //   _this.finalShow = activityData;
-      //   _this.activityData_length = totalPages;
-      // }, _this)
     },
+
     // 获取活动列表
     getApprovedActivityData() {
       queryApprovedListByUserID().then((res) => {
@@ -540,45 +554,7 @@ export default {
         res.data.content ? this.approvedList = res.data.content : null;
         res.data.totalPages ? this.approvedList_length = res.data.totalPages : null;
       })
-      
-      // let _this = this
-      // request.$get('', {
-      //   userId: _this.userId,
-      //   page: _this.currentPage,
-      //   limit: _this.pageSize,
-      //   orderRule: 'DESC'
-      // }, (res) => {
-      //   console.log(res.data);
-      //   let totalPages = res.data.data.totalPages;
-      //   let activityData = res.data.data.content;
-      //   _this.activityData = activityData;
-      //   _this.finalShow = activityData;
-      //   _this.activityData_length = totalPages;
-      // }, _this)
     },
-    // addActivity() {
-    //   let _this = this
-    //   request.$post('/activity/add', {
-    //     location: _this.form.location,
-    //     activityName: _this.form.activityName,
-    //     activityType: _this.form.activityType,
-    //     organizationMessage: _this.form.organizationMessage,
-    //     userId: _this.userId,
-    //     activityStampedEnd: _this.form.activityStampedEnd,
-    //     activityStampedStart: _this.form.activityStampedStart,
-    //     activityStartTime: _this.form.activityStartTime,
-    //     activityEndTime: _this.form.activityEndTime,
-    //     applicationStamper: _this.form.applicationStamper
-    //   }, (res) => {
-    //     console.log(res.data);
-    //     _this.addFormVisible = false;
-    //     setTimeout(function () {
-    //       _this.getActivityData();
-    //       // _this.reload();
-    //       request.message(_this, '活动创建成功', 'success');
-    //     }, 1000)
-    //   }, _this)
-    // },
 
     
     // 创建活动申请

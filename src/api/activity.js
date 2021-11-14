@@ -38,10 +38,14 @@ export function getWeekUnqualified(data) {
 
 // 需求3: 活动查询与创建（面向的是活动负责人角色）
 // 图片上传
-export function picUpload() {
+export function picUpload(formData) {
   return request({
     url: "/common/aliyun/ding",
-    method: 'post'
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData,
   })
 }
 
