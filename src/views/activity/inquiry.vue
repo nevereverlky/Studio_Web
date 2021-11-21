@@ -487,7 +487,16 @@ export default {
     },
     // 修改框内容回填
     initEditForm(index) {
+      const typeMap = {
+        schoolActivity: '校园活动',
+        lectureActivity: '讲座活动',
+        volunteerActivity: '志愿活动',
+        practiceActivity: '实践活动',
+      }
       this.editForm = this.canceledList[index]
+      this.editForm.activityType = typeMap[this.editForm.type]
+      this.editForm.activityTime = [this.editForm.start, this.editForm.end]
+      this.editForm.stampedTime = [this.editForm.activityStampedStart, this.editForm.activityStampedEnd]
       this.editFormVisible = true;
     },
     // 时间戳解析
@@ -541,7 +550,7 @@ export default {
       // queryCanceledListByUserID({searchCreatorStuId: this.userId}).then((res) => {
         console.log('queryCanceledListByUserID', res)
         res.data.content ? this.canceledList = res.data.content : null;
-        res.data.totalPages ? this.canceledList_length = res.data.totalPages : null;
+        res.data.totalPages ? this.canceledList_length = res.data.totalElements : null;
       })
     },
 
@@ -552,7 +561,7 @@ export default {
         console.log('queryCanceledListByUserID', res)
         // console.log('queryCanceledListContent', res.data.content)
         res.data.content ? this.approvedList = res.data.content : null;
-        res.data.totalPages ? this.approvedList_length = res.data.totalPages : null;
+        res.data.totalPages ? this.approvedList_length = res.data.totalElements : null;
       })
     },
 
