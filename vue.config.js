@@ -9,8 +9,8 @@ const isProduction = process.env.NODE_ENV !== 'development';
 // gzip压缩
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
-const api = 'http://mc.upblog.cn:666'
-// const api = 'http://47.98.37.45:8080' // 开发环境
+//const api = 'http://mc.upblog.cn:666'
+const api = 'http://47.98.37.45:8080' // 开发环境
 // const api = 'http://127.0.0.1:2077'
 
 const path = require('path')
@@ -20,30 +20,30 @@ const resolve = (dir) => path.join(__dirname, '.', dir);
 const cdn = {
   // 忽略打包的第三方库
   externals: {
-    'vue': 'Vue',
-    'element-ui': 'ElementUI',
-    'axios': 'axios',
-    'qs': 'Qs',
-    'vuex': 'Vuex',
-    'vue-router': 'VueRouter',
+    // 'vue': 'Vue',
+    // 'element-ui': 'ElementUI',
+    // 'axios': 'axios',
+    // 'qs': 'qs',
+    // 'vuex': 'Vuex',
+    // 'vue-router': 'VueRouter',
   },
 
   // 通过cdn方式使用
   js: [
-    'https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/jquery/3.3.1/jquery.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/vue-router/3.2.0/vue-router.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/qs/6.9.4/qs.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/vuex/3.5.1/vuex.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.0/index.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js'
+    // 'https://cdn.staticfile.org/vue/2.6.11/vue.min.js',
+       'https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js',
+    // 'https://cdn.staticfile.org/vue-router/3.2.0/vue-router.min.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/qs/6.9.4/qs.min.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/vuex/3.5.1/vuex.min.js',
+      //  'https://cdn.staticfile.org/element-ui/2.15.0/index.min.js',
+       'https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js'
   ],
   css: [
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.0/theme-chalk/index.min.css',
-    'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css',
-    'https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
-    'https://cdn.bootcdn.net/ajax/libs/animate.css/3.6.2/animate.min.css'
+       'https://cdn.staticfile.org/element-ui/2.15.0/theme-chalk/index.min.css',
+       'https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css',
+       'https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css',
+       'https://cdn.staticfile.org/animate.css/3.6.2/animate.min.css'
   ],
 };
 

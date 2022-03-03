@@ -82,8 +82,8 @@
                                         </div>
                                         <div style="flex: 1">
                                           <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">{{item.applicationStamper}}</span></p>
-                                          <p><b>活动时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseT(item.activityStampedStart)}}--{{parseT(item.activityStampedEnd)}}</p>
-                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseT(item.activityStampedStart)}}--{{parseT(item.activityStampedEnd)}}</p>
+                                          <p><b>活动时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityStampedStart | dateFormat}}--{{item.activityStampedEnd | dateFormat}}</p>
+                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityStampedStart | dateFormat}}--{{item.activityStampedEnd | dateFormat}}</p>
                                         </div>
                                       </div>
                                     </div>
@@ -246,7 +246,7 @@
                     end-placeholder="结束日期"/>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="申请章数">
-                  <el-input-number v-model="form.applicationStamper" :min="1" :max="1000" size="small" label="描述文字" @change="handleChange"/>
+                  <el-input-number v-model="form.applicationStamper" :min="1" :max="1000" size="small" label="描述文字"/>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="钉钉截图">
                   <el-upload
@@ -256,7 +256,6 @@
                     :before-remove="beforeRemove"
                     :limit="1"
                     :on-exceed="handleExceed"
-                    :file-list="fileList"
                     class="upload-demo"
                     :http-request="onUpload">
                     <el-button size="small" type="primary" plain>点击上传</el-button>
@@ -317,7 +316,7 @@
                     end-placeholder="结束日期"/>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="申请章数">
-                  <el-input-number v-model="editForm.applicationStamper" :min="1" :max="1000" size="small" label="描述文字" @change="handleChange"/>
+                  <el-input-number v-model="editForm.applicationStamper" :min="1" :max="1000" size="small" label="描述文字"/>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="钉钉截图">
                   <el-upload

@@ -139,7 +139,7 @@
                   :data="stuData"
                   :header-cell-style="{color: '#000000', fontSize: '14px'}"
                   style="width: 100%"
-                  cell-style="font-size:13px">
+                  :cell-style="{fontSize: '13px'}">
                   <el-table-column label="未达毕业要求的毕业生如下">
                     <el-table-column
                       label="姓名学号"
@@ -225,7 +225,7 @@
                   :data="createdList"
                   :header-cell-style="{color: '#000000', fontSize: '14px'}"
                   style="width: 100%"
-                  cell-style="font-size:13px">
+                  :cell-style="{fontSize: '13px'}">
                   <el-table-column label="本周创建的活动如下">
                     <el-table-column
                       label="负责人"
@@ -320,7 +320,7 @@
                   :data="approvedList"
                   :header-cell-style="{color: '#000000', fontSize: '14px'}"
                   style="width: 100%"
-                  cell-style="font-size:13px">
+                  :cell-style="{fontSize: '13px'}">
                   <el-table-column label="本周审批通过的活动如下">
                     <el-table-column
                       label="负责人"
@@ -416,7 +416,7 @@
                   :data="unqualifiedList"
                   :header-cell-style="{color: '#000000', fontSize: '14px'}"
                   style="width: 100%"
-                  cell-style="font-size:13px">
+                  :cell-style="{fontSize: '13px'}">
                   <el-table-column label="本周未达标的活动如下（即申请章数与实际章数大于小于一定的比例）">
                     <el-table-column
                       label="负责人"

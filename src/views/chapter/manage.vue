@@ -32,7 +32,7 @@
                   :data="activityData"
                   :header-cell-style="{color: 'black', fontSize: '13px'}"
                   style="width: 100%"
-                  cell-style="font-size: 13px">
+                  :cell-style="{fontSize: '13px'}">
                   <el-table-column>
                     <!-- eslint-disable-next-line -->
                     <template slot="header" slot-scope="scope">
