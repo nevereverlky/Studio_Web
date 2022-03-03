@@ -32,7 +32,7 @@
                   v-loading="loading"
                   :header-cell-style="{color: 'black', fontSize: '13px'}"
                   style="width: 100%"
-                  cell-style="font-size: 13px">
+                  :cell-style="{fontSize: '13px'}">
                   <el-table-column>
                     <!-- eslint-disable-next-line -->
                     <template slot="header" slot-scope="scope">
@@ -124,13 +124,12 @@
                       <!-- eslint-disable-next-line -->
                       <template slot-scope="scope">
                           <el-switch
-                            v-model="canStamp"
-                            @change="changeAuthority"
-                            :validate-event="getevent(scope.row.stuId)"
+                            v-model="scope.row.canStamp"
+                            @change="changeAuthority($event, scope.row.stuId)"
                             active-color="#6993ff"
                             inactive-color="#eeeeee"
-                            active-value="true"
-                            inactive-value="false"/>
+                            :active-value="true"
+                            :inactive-value="false"/>
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -207,7 +206,6 @@ export default {
       total: 20, // 总条数
       activityData_length: 0, // 总条目数
       pageSize: 10, // 每页的数据条数
-      canStamp: false,
       loading: true,
       activityData: [],
       edittimeVisible: false,
@@ -322,12 +320,14 @@ export default {
         _this.loading = false;
       }, _this)
     },
-    getevent(e) {
+    // getevent(e) {
+    //   console.log(e);
+    //   this.stuId = e
+    // },
+    changeAuthority($event, e) {
+      let _this = this;
       console.log(e);
       this.stuId = e
-    },
-    changeAuthority($event) {
-      let _this = this;
       console.log($event);
       request.$put('/user/stampmanager', {
         operatedId: '',
@@ -338,6 +338,7 @@ export default {
         let message = res.data.errorMsg;
         setTimeout(function () {
           request.message(_this, message, 'success');
+          _this.getActivityData();
         }, 1000)
       }, _this)
     },

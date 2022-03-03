@@ -37,7 +37,6 @@
                         :before-remove="beforeRemove"
                         :on-exceed="handleExceed"
                         :file-list="fileList"
-                        :show-file-list="fileList"
                         :auto-upload="false"
                         class="upload-demo"
                         action="#"

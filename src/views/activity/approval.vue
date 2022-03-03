@@ -48,7 +48,7 @@
                               v-loading="canceledLoading"
                               :header-cell-style="{color: 'black', fontSize: '13px'}"
                               style="width: 100%"
-                              cell-style="font-size: 13px">
+                              :cell-style="{fontSize: '13px'}">
                               <el-table-column>
                                 <!-- eslint-disable-next-line -->
                                 <template slot="header" slot-scope="scope">
@@ -130,7 +130,7 @@
                                   prop="activityStamped"
                                   width="180">
                                   <template slot-scope="scope">
-                                    {{ parseT(scope.row.activityStampedStart) }}-{{ parseT(scope.row.activityStampedEnd) }}
+                                    {{ scope.row.activityStampedStart | dateFormat}}-{{ scope.row.activityStampedEnd | dateFormat}}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
@@ -177,7 +177,7 @@
                               v-loading="approvedLoading"
                               :header-cell-style="{color: 'black', fontSize: '13px'}"
                               style="width: 100%"
-                              cell-style="font-size: 13px">
+                              :cell-style="{fontSize: '13px'}">
                               <el-table-column>
                                 <!-- eslint-disable-next-line -->
                                 <template slot="header" slot-scope="scope">
