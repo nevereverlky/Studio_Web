@@ -275,20 +275,21 @@
                 <el-form-item :label-width="formLabelWidth" label="申请章数">
                   <el-input-number v-model="form.applicationStamper" :min="1" :max="1000" size="small" label="描述文字"/>
                 </el-form-item>
-                <!-- <el-form-item :label-width="formLabelWidth" label="钉钉截图">
+                <el-form-item :label-width="formLabelWidth" label="钉钉截图">
                   <el-upload
                     name="file"
+                    action="http://47.98.37.45:8080/common/aliyun/ding"
                     :on-success="uploadSuccess"
                     :on-remove="handleRemove"
                     :before-remove="beforeRemove"
                     :limit="1"
                     :on-exceed="handleExceed"
                     class="upload-demo"
-                    :http-request="onUpload">
+                    >
                     <el-button size="small" type="primary" plain>点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
-                </el-form-item> -->
+                </el-form-item>
               </div>
             </div>
           </el-form>
@@ -348,8 +349,10 @@
                 <el-form-item :label-width="formLabelWidth" label="申请章数">
                   <el-input-number v-model="editForm.applicationStamper" :min="1" :max="1000" size="small" label="描述文字"/>
                 </el-form-item>
-                <!-- <el-form-item :label-width="formLabelWidth" label="钉钉截图">
+                <el-form-item :label-width="formLabelWidth" label="钉钉截图">
                   <el-upload
+                    name="file"
+                    action="http://47.98.37.45:8080/common/aliyun/ding"
                     :on-success="uploadSuccess"
                     :on-remove="handleRemove"
                     :before-remove="beforeRemove"
@@ -357,11 +360,11 @@
                     :on-exceed="handleExceed"
                     :file-list="editFileList"
                     class="upload-demo"
-                    :http-request="onUpload">
+                  >
                     <el-button size="small" type="primary" plain>点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
-                </el-form-item> -->
+                </el-form-item>
               </div>
             </div>
           </el-form>
@@ -385,6 +388,7 @@ import { localStorageGet, parseTime } from '@/utils/util'
 import { getActivityOrganizers,
         queryApprovedListByUserID,
         queryCanceledListByUserID,
+        picUpload,
         } from '@/api/activity'
 
 export default {
@@ -458,25 +462,25 @@ export default {
      * 上传文件
      * describe: ''
      */
-    // uploadProfile(fileObj) {
-    //   const formData = new FormData()
-    //   formData.append('file', fileObj.file)
-    //   return new Promise((resolve, reject) => {
-    //     picUpload(formData).then((res) => {
-    //       this.form.pictureUrl = res.data.path
-    //       this.$message.success(`图片上传成功！`)
-    //       resolve(res.data.path)
-    //     }).catch((err) => {
-    //       console.log(err)
-    //       this.$message.warning(`图片上传失败，请联系管理员！`)
-    //       reject()
-    //     })
-    //   })
-    // },
+    uploadProfile(fileObj) {
+      const formData = new FormData()
+      formData.append('file', fileObj.file)
+      return new Promise((resolve, reject) => {
+        picUpload(formData).then((res) => {
+          this.form.pictureUrl = res.data.path
+          this.$message.success(`图片上传成功！`)
+          resolve(res.data.path)
+        }).catch((err) => {
+          console.log(err)
+          this.$message.warning(`图片上传失败，请联系管理员！`)
+          reject()
+        })
+      })
+    },
     // 上传文件
-    // async onUpload(fileObj) {
-    //   await this.uploadProfile(fileObj)
-    // },
+    async onUpload(fileObj) {
+      await this.uploadProfile(fileObj)
+    },
     // 修改框内容回填
     initEditForm(index) {
       const typeMap = {
