@@ -64,25 +64,34 @@
                                       <div class="box-body" style="display: flex">
                                         <div style="flex: 1">
                                           <p><b>活动名称</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityName}}
+                                           <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'schoolActivity'">
+                                              校园活动
+                                            </span>
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'volunteerActivity'">
+                                              志愿活动
+                                            </span>
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'practiceActivity'">
+                                              实践活动
+                                            </span>
                                             <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'lectureActivity'">
                                               讲座活动
                                             </span>
-                                            <!-- <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'lectureActivity'">
-                                              校园活动
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'volunteerWork'">
+                                              义工活动
                                             </span>
-                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'lectureActivity'">
-                                              志愿活动
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'partyActivity'">
+                                              党员活动
                                             </span>
-                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'lectureActivity'">
-                                              实践活动
-                                            </span> -->
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'partyTimeActivity'">
+                                              党员时间
+                                            </span>
                                           </p>
                                           <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.organizationMessage}}</p>
                                           <p><b>活动地点</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.location}}</p>
                                         </div>
                                         <div style="flex: 1">
                                           <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="badge badge-primary">{{item.applicationStamper}}</span></p>
-                                          <p><b>活动时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityStampedStart | dateFormat}}--{{item.activityStampedEnd | dateFormat}}</p>
+                                          <p><b>活动时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.start | dateFormat}}--{{item.end | dateFormat}}</p>
                                           <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityStampedStart | dateFormat}}--{{item.activityStampedEnd | dateFormat}}</p>
                                         </div>
                                       </div>
@@ -129,8 +138,26 @@
                                       <div class="box-body" style="display: flex">
                                         <div style="flex: 1">
                                           <p><b>活动名称</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.activityName}}
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'schoolActivity'">
+                                              校园活动
+                                            </span>
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'volunteerActivity'">
+                                              志愿活动
+                                            </span>
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'practiceActivity'">
+                                              实践活动
+                                            </span>
                                             <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'lectureActivity'">
                                               讲座活动
+                                            </span>
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'volunteerWork'">
+                                              义工活动
+                                            </span>
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'partyActivity'">
+                                              党员活动
+                                            </span>
+                                            <span class="badge badge-default" style="margin-left: 10px" v-if="item.type === 'partyTimeActivity'">
+                                              党员时间
                                             </span>
                                           </p>
                                           <p><b>举办单位</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.organizationMessage}}</p>
@@ -140,8 +167,8 @@
                                           <p><b>申请章数</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                           <span class="badge badge-primary">{{item.applicationStamper}}</span>
                                           </p>
-                                          <p><b>活动学期</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseT(item.activityStampedStart)}}--{{parseT(item.activityStampedEnd)}}</p>
-                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{parseT(item.activityStampedStart)}}--{{parseT(item.activityStampedEnd)}}</p>
+                                          <p><b>活动时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ item.start | dateFormat}}--{{ item.end | dateFormat}}</p>
+                                          <p><b>扫章时间</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ item.activityStampedStart | dateFormat}}--{{ item.activityStampedEnd | dateFormat}}</p>
                                         </div>
                                       </div>
                                       <div class="box-footer text-right p-0" v-if="item.state === 'CANCELED'">
@@ -222,7 +249,7 @@
                     <el-option label="志愿活动" value="volunteerActivity"/>
                     <el-option label="实践活动" value="practiceActivity"/>
                     <el-option label="讲座活动" value="lectureActivity"/>
-                    <el-option label="义工" value="volunteerWork"/>
+                    <el-option label="义工活动" value="volunteerWork"/>
                     <el-option label="党员活动" value="partyActivity"/>
                     <el-option label="党员时间" value="partyTimeActivity"/>
                   </el-select>
@@ -248,7 +275,7 @@
                 <el-form-item :label-width="formLabelWidth" label="申请章数">
                   <el-input-number v-model="form.applicationStamper" :min="1" :max="1000" size="small" label="描述文字"/>
                 </el-form-item>
-                <el-form-item :label-width="formLabelWidth" label="钉钉截图">
+                <!-- <el-form-item :label-width="formLabelWidth" label="钉钉截图">
                   <el-upload
                     name="file"
                     :on-success="uploadSuccess"
@@ -261,7 +288,7 @@
                     <el-button size="small" type="primary" plain>点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
-                </el-form-item>
+                </el-form-item> -->
               </div>
             </div>
           </el-form>
@@ -291,10 +318,13 @@
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth" label="活动类型">
                   <el-select v-model="editForm.activityType" placeholder="请选择活动类型">
-                    <el-option label="校园活动" value="校园活动"/>
-                    <el-option label="志愿活动" value="志愿活动"/>
-                    <el-option label="实践活动" value="实践活动"/>
-                    <el-option label="讲座活动" value="讲座活动"/>
+                    <el-option label="校园活动" value="schoolActivity"/>
+                    <el-option label="志愿活动" value="volunteerActivity"/>
+                    <el-option label="实践活动" value="practiceActivity"/>
+                    <el-option label="讲座活动" value="lectureActivity"/>
+                    <el-option label="义工活动" value="volunteerWork"/>
+                    <el-option label="党员活动" value="partyActivity"/>
+                    <el-option label="党员时间" value="partyTimeActivity"/>
                   </el-select>
                 </el-form-item>
               </div>
@@ -318,7 +348,7 @@
                 <el-form-item :label-width="formLabelWidth" label="申请章数">
                   <el-input-number v-model="editForm.applicationStamper" :min="1" :max="1000" size="small" label="描述文字"/>
                 </el-form-item>
-                <el-form-item :label-width="formLabelWidth" label="钉钉截图">
+                <!-- <el-form-item :label-width="formLabelWidth" label="钉钉截图">
                   <el-upload
                     :on-success="uploadSuccess"
                     :on-remove="handleRemove"
@@ -331,7 +361,7 @@
                     <el-button size="small" type="primary" plain>点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
-                </el-form-item>
+                </el-form-item> -->
               </div>
             </div>
           </el-form>
@@ -348,63 +378,26 @@
 </template>
 
 <script>
+import request from '../../utils/request'
+import { formateTime } from '../../utils/util'
 // import request from '../../utils/request'
 import { localStorageGet, parseTime } from '@/utils/util'
 import { getActivityOrganizers,
-        createActivity,
         queryApprovedListByUserID,
         queryCanceledListByUserID,
-        picUpload, } from '@/api/activity'
+        } from '@/api/activity'
 
 export default {
   name: 'Inquiry',
   data() {
     return {
       userId: '', //用户ID
-      activityData: [
-        {
-          timestamp: '2021-01-15 12:00:00',
-          approved: 'PASS',
-          activityId: '201812011',
-          activityName: '图书馆数字资源培训讲座',
-          type: 'lectureActivity',
-          organizationMessage: '学生社团联合会',
-          location: '图书馆讲堂',
-          applicationStamper: 150,
-          activityStampedStart: '',
-          activityStampedEnd: ''
-        },
-        {
-          timestamp: '2021-01-13 12:00:00',
-          approved: 'WAIT',
-          activityId: '201812011',
-          activityName: '图书馆数字资源培训讲座',
-          type: 'lectureActivity',
-          organizationMessage: '学生社团联合会',
-          location: '图书馆讲堂',
-          applicationStamper: 150,
-          activityStampedStart: '',
-          activityStampedEnd: ''
-        },
-        {
-          timestamp: '2021-01-13 12:00:00',
-          approved: 'BACK',
-          activityId: '201812011',
-          activityName: '图书馆数字资源培训讲座',
-          type: 'lectureActivity',
-          organizationMessage: '学生社团联合会',
-          location: '图书馆讲堂',
-          applicationStamper: 150,
-          activityStampedStart: '',
-          activityStampedEnd: ''
-        }
-      ],
+      activityData: [],
       formLabelWidth: '80px',
       activityStatus: '', //活动状态（'PASS'/'FAIL'）
       addFormVisible: false,
       editFormVisible: false,
       editFileList: [],
-      
       form: {
         activityName: '',
         organizationMessage: '',
@@ -465,32 +458,35 @@ export default {
      * 上传文件
      * describe: ''
      */
-    uploadProfile(fileObj) {
-      const formData = new FormData()
-      formData.append('file', fileObj.file)
-      return new Promise((resolve, reject) => {
-        picUpload(formData).then((res) => {
-          this.form.pictureUrl = res.data.path
-          this.$message.success(`图片上传成功！`)
-          resolve(res.data.path)
-        }).catch((err) => {
-          console.log(err)
-          this.$message.warning(`图片上传失败，请联系管理员！`)
-          reject()
-        })
-      })
-    },
+    // uploadProfile(fileObj) {
+    //   const formData = new FormData()
+    //   formData.append('file', fileObj.file)
+    //   return new Promise((resolve, reject) => {
+    //     picUpload(formData).then((res) => {
+    //       this.form.pictureUrl = res.data.path
+    //       this.$message.success(`图片上传成功！`)
+    //       resolve(res.data.path)
+    //     }).catch((err) => {
+    //       console.log(err)
+    //       this.$message.warning(`图片上传失败，请联系管理员！`)
+    //       reject()
+    //     })
+    //   })
+    // },
     // 上传文件
-    async onUpload(fileObj) {
-      await this.uploadProfile(fileObj)
-    },
+    // async onUpload(fileObj) {
+    //   await this.uploadProfile(fileObj)
+    // },
     // 修改框内容回填
     initEditForm(index) {
       const typeMap = {
         schoolActivity: '校园活动',
-        lectureActivity: '讲座活动',
         volunteerActivity: '志愿活动',
         practiceActivity: '实践活动',
+        lectureActivity: '讲座活动',
+        volunteerWork: '义工活动',
+        partyActivity: '党员活动',
+        partyTimeActivity: '党员时间'
       }
       this.editForm = this.canceledList[index]
       this.editForm.activityType = typeMap[this.editForm.type]
@@ -563,51 +559,95 @@ export default {
         res.data.totalPages ? this.approvedList_length = res.data.totalElements : null;
       })
     },
-
-    
     // 创建活动申请
     addActivity() {
-      console.log('pic', this.form.pictureUrl)
-      if(!this.form.pictureUrl) {
-        this.$message.warning(`图片未上传！`)
-        return;
-      }
-      this.form.activityStartTime = new Date(this.form.activityTime[0]).getTime()/1000;
-      this.form.activityEndTime = new Date(this.form.activityTime[1]).getTime()/1000
-      this.form.activityStampedStart = new Date(this.form.stampedTime[0]).getTime()/1000
-      this.form.activityStampedEnd = new Date(this.form.stampedTime[1]).getTime()/1000
-      const params = this.form
-      params.userId = this.userId
-      delete params.stampedTime
-      delete params.activityTime
-      console.log('createActivity', params);
-      createActivity(params).then((res) => {
-        console.log('createActivity', res)
-        this.$message.success(`活动创建成功！`)
-        this.addFormVisible = false;
-      })
+      let _this = this
+      // console.log('pic', this.form.pictureUrl)
+      // if(!this.form.pictureUrl) {
+      //   this.$message.warning(`图片未上传！`)
+      //   return;
+      // }
+      this.form.activityStartTime = new Date(formateTime(_this.form.activityTime[0])).getTime();
+      this.form.activityEndTime = new Date(formateTime(_this.form.activityTime[1])).getTime();
+      this.form.activityStampedStart = new Date(formateTime(_this.form.stampedTime[0])).getTime();
+      this.form.activityStampedEnd = new Date(formateTime(_this.form.stampedTime[1])).getTime();
+      // const params = this.form
+      // params.userId = this.userId
+      // delete params.stampedTime
+      // delete params.activityTime
+      // console.log('createActivity', params);
+      request.$post('/activity', {
+        location: _this.form.location,
+        activityName: _this.form.activityName,
+        activityType: _this.form.activityType,
+        organizationMessage: _this.form.organizationMessage,
+        userId: _this.userId,
+        activityStampedEnd: _this.form.activityStampedEnd,
+        activityStampedStart: _this.form.activityStampedStart,
+        activityStartTime: _this.form.activityStartTime,
+        activityEndTime: _this.form.activityEndTime,
+        applicationStamper: _this.form.applicationStamper,
+        pictureUrl: _this.form.pictureUrl
+      }, (res) => {
+        console.log(res.data);
+        let message = res.data.errorMsg;
+        setTimeout(function () {
+          _this.addFormVisible = false;
+          _this.getApprovedActivityData();
+          _this.getCanceledActivityData();
+          request.message(_this, message, 'success');
+        }, 1000)
+      }, _this)
+      // createActivity(params).then((res) => {
+      //   console.log('createActivity', res)
+      //   this.$message.success(`活动创建成功！`)
+      //   this.addFormVisible = false;
+      // })
     },
     // 修改活动申请
     editActivity() {
-      console.log('pic', this.editForm.pictureUrl)
-      if(!this.editForm.pictureUrl) {
-        this.$message.warning(`图片未上传！`)
-        return;
-      }
-      this.editForm.activityStartTime = new Date(this.editForm.activityTime[0]).getTime()/1000;
-      this.editForm.activityEndTime = new Date(this.editForm.activityTime[1]).getTime()/1000
-      this.editForm.activityStampedStart = new Date(this.editForm.stampedTime[0]).getTime()/1000
-      this.editForm.activityStampedEnd = new Date(this.editForm.stampedTime[1]).getTime()/1000
-      const params = this.editForm
-      params.userId = this.userId
-      delete params.stampedTime
-      delete params.activityTime
-      console.log('createActivity', params);
-      createActivity(params).then((res) => {
-        console.log('createActivity', res)
-        this.$message.success(`活动修改成功！`)
-        this.editFormVisible = false;
-      })
+      let _this = this
+      // console.log('pic', this.editForm.pictureUrl)
+      // if(!this.editForm.pictureUrl) {
+      //   this.$message.warning(`图片未上传！`)
+      //   return;
+      // }
+      this.editForm.activityStartTime = new Date(formateTime(_this.editForm.activityTime[0])).getTime();
+      this.editForm.activityEndTime = new Date(formateTime(_this.editForm.activityTime[1])).getTime();
+      this.editForm.activityStampedStart = new Date(formateTime(_this.editForm.stampedTime[0])).getTime();
+      this.editForm.activityStampedEnd = new Date(formateTime(_this.editForm.stampedTime[1])).getTime();
+      // const params = this.editForm
+      // params.userId = this.userId
+      // delete params.stampedTime
+      // delete params.activityTime
+      // console.log('createActivity', params);
+       request.$put('/activity/modify', {
+        location: _this.editForm.location,
+        activityName: _this.editForm.activityName,
+        activityType: _this.editForm.activityType,
+        organizationMessage: _this.editForm.organizationMessage,
+        userId: _this.userId,
+        activityStampedEnd: _this.editForm.activityStampedEnd,
+        activityStampedStart: _this.editForm.activityStampedStart,
+        activityStartTime: _this.editForm.activityStartTime,
+        activityEndTime: _this.editForm.activityEndTime,
+        applicationStamper: _this.editForm.applicationStamper,
+        pictureUrl: _this.editForm.pictureUrl
+      }, (res) => {
+        console.log(res.data);
+        let message = res.data.errorMsg;
+        setTimeout(function () {
+          _this.editFormVisible = false;
+          _this.getApprovedActivityData();
+          _this.getCanceledActivityData();
+          request.message(_this, message, 'success');
+        }, 1000)
+      }, _this)
+      // createActivity(params).then((res) => {
+      //   console.log('createActivity', res)
+      //   this.$message.success(`活动修改成功！`)
+      //   this.editFormVisible = false;
+      // })
     },
     handleRemove(file, fileList) {
       this.form.pictureUrl = null
