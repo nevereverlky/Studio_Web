@@ -43,7 +43,6 @@
                       <el-image
                         style="width: 100px; height: 100px"
                         :src="pictureUrl"
-                        :fit="fit"
                       ></el-image>
                     </div>
                   </div>

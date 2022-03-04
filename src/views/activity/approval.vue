@@ -259,7 +259,7 @@
                                   prop="activityStamped"
                                   width="180">
                                   <template slot-scope="scope">
-                                    {{ parseT(scope.row.activityStampedStart) }}-{{ parseT(scope.row.activityStampedEnd) }}
+                                    {{ scope.row.activityStampedStart | dateFormat}}-{{ scope.row.activityStampedEnd | dateFormat }}
                                   </template>
                                 </el-table-column>
                                 <el-table-column
